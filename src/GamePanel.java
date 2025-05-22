@@ -1,3 +1,4 @@
+import Background.Background;
 import Player.Player;
 import Effects.Dust;
 
@@ -8,10 +9,12 @@ import java.awt.*;
 public class GamePanel extends JPanel {
     private Player player;
     private Dust dust;
+    private Background background;
 
-    public GamePanel(Player player, Dust dust) {
+    public GamePanel(Player player, Dust dust, Background background) {
         this.player = player;
         this.dust = dust;
+        this.background = background;
         setPreferredSize(new Dimension(1280, 720));
         setFocusable(true);
     }
@@ -21,6 +24,7 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
 
         // Desenhos
+        background.Renderizar(g); // background tem que ser o primeiro para não sobrepor o player e dust
         dust.Renderizar(g);
         player.Renderizar(g);
     }

@@ -1,8 +1,10 @@
+import Background.Background;
 import Effects.Dust;
 import Update.Update;
 import Render.Render;
 import ProcessInput.ProcessInput;
 import Player.Player;
+
 
 import javax.swing.*;
 
@@ -15,13 +17,16 @@ public class Game {
     private Dust dust;
     private GamePanel gamePanel;
 
+    private Background background;
+
     {
         this.player = new Player();
         this.dust = new Dust(player);
+        this.background = new Background();
         this.UserInput = new ProcessInput(player);
 
         // Cria painel de jogo e passa os objetos
-        this.gamePanel = new GamePanel(player, dust);
+        this.gamePanel = new GamePanel(player, dust, background);
         gamePanel.addKeyListener(this.UserInput);
         gamePanel.setFocusable(true);
         gamePanel.requestFocusInWindow();
