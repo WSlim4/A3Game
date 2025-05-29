@@ -1,12 +1,15 @@
 import Background.Background;
 import Effects.Dust;
+import Ponto.Pontos;
 import Update.Update;
 import Render.Render;
 import ProcessInput.ProcessInput;
 import Player.Player;
 
 
+
 import javax.swing.*;
+import java.awt.event.KeyEvent;
 
 public class Game {
     private Update UpdateState;
@@ -16,20 +19,24 @@ public class Game {
     private Player player;
     private Dust dust;
     private GamePanel gamePanel;
-
     private Background background;
+    private Pontos pontos;
+
 
     {
         this.player = new Player();
         this.dust = new Dust(player);
         this.background = new Background();
         this.UserInput = new ProcessInput(player);
+        this.pontos = new Pontos();
+
 
         // Cria painel de jogo e passa os objetos
-        this.gamePanel = new GamePanel(player, dust, background);
+        this.gamePanel = new GamePanel(player, dust, background, pontos);
         gamePanel.addKeyListener(this.UserInput);
         gamePanel.setFocusable(true);
         gamePanel.requestFocusInWindow();
+
 
         // Criação da Janela do Jogo
         JFrame janela = new JFrame();
@@ -40,6 +47,7 @@ public class Game {
         janela.setLocationRelativeTo(null);
         janela.setResizable(false);
         janela.setVisible(true);
+
 
         this.UpdateState = new Update();
         this.Renderer = new Render();
@@ -55,6 +63,7 @@ public class Game {
         while (true) {
             this.UserInput.read();
             this.UpdateState.update();
+            pontos.Tempo();
             this.Renderer.render(this.player, this.dust);
             gamePanel.repaint();
             try { Thread.sleep(16); } catch (Exception e) {}
