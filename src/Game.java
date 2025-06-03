@@ -19,20 +19,18 @@ public class Game {
     private Player player;
     private Dust dust;
     private GamePanel gamePanel;
-    private Background background;
     private Pontos pontos;
 
 
     {
         this.player = new Player();
         this.dust = new Dust(player);
-        this.background = new Background();
         this.UserInput = new ProcessInput(player);
         this.pontos = new Pontos();
 
 
         // Cria painel de jogo e passa os objetos
-        this.gamePanel = new GamePanel(player, dust, background, pontos);
+        this.gamePanel = new GamePanel(player, dust, pontos);
         gamePanel.addKeyListener(this.UserInput);
         gamePanel.setFocusable(true);
         gamePanel.requestFocusInWindow();
