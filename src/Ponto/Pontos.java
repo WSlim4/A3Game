@@ -1,10 +1,12 @@
 package Ponto;
-import Background.Background;
+import Background.*;
 import Fonte.FontLoader;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class Pontos {
 
@@ -14,9 +16,13 @@ public class Pontos {
     // teste é para ser substituido por uma boolean que indica Game Over ou não
     private boolean teste = true;
     private Timer tempo;
-    private Background background = new Background();
+    private PassagemDeTempo passagemDeTempo = new PassagemDeTempo();
     private int movimento = 0;
     double velocidade = 0;
+    private int cicloDia;
+    private int ciclo = 0;
+    private int lua = 1480;
+    private int luaVelocidade = 0;
 
 
 
@@ -36,8 +42,25 @@ public class Pontos {
                         velocidade = 0;
                     }
 
+                    ciclo++;
+                    cicloDia = ciclo/700;
+                    if (cicloDia == 2001){
+                        ciclo = 0;
+                        cicloDia = 0;
+                    }
+
+                    luaVelocidade += 1;
+                    if (luaVelocidade == 220){
+                        lua -= 1;
+                        luaVelocidade = 0;
+                    } else if (lua == -2560) {
+                        lua = 0;
+                        luaVelocidade = 0;
+                    }
+
                     // valor temporário de pontos, após a finalização do jogo podemos mudar isso
                     pontos = ms/700;
+
                 }
             }
         });
@@ -46,7 +69,7 @@ public class Pontos {
 
 
     public void Renderizar(Graphics g){
-        background.Renderizar(g, movimento);
+        passagemDeTempo.Renderizar(g, movimento, cicloDia, lua);
         g.setColor(Color.white);
         g.setFont(fonte);
         g.drawString(" " + pontos, 1100, 50);

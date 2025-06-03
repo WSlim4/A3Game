@@ -1,4 +1,3 @@
-import Background.Background;
 import Player.Player;
 import Effects.Dust;
 import Ponto.Pontos;

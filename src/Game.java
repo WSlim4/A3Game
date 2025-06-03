@@ -1,4 +1,3 @@
-import Background.Background;
 import Effects.Dust;
 import Ponto.Pontos;
 import Update.Update;

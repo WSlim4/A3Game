@@ -7,13 +7,13 @@ import java.io.IOException;
 import java.util.Objects;
 
 
-public class Background  {
+public class Day  {
 
     private final BufferedImage[] backgroundLayer = new BufferedImage[6];
     private final BufferedImage[] chao = new BufferedImage[2];
     private int movimento = 0;
 
-    public Background() {
+    public Day() {
         // Carregar Background Asset
         try {
             backgroundLayer[0] = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/background/Day/1.png")));
@@ -42,7 +42,6 @@ public class Background  {
                 g.drawImage(chao[1], x, 644, 32, 32, null);
                 g.drawImage(chao[1], x, 676, 32, 32, null);
                 g.drawImage(chao[1], x, 708, 32, 32, null);
-
             }
     }
 }
