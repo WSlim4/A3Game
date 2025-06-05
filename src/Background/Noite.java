@@ -11,8 +11,6 @@ public class Noite {
 
     private final BufferedImage[] backgroundLayer = new BufferedImage[6];
     private final BufferedImage[] chao = new BufferedImage[2];
-    private int movimento = 0;
-    private int lua;
 
     public Noite() {
         // Carregar Background Asset
@@ -25,17 +23,15 @@ public class Noite {
             backgroundLayer[5] = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/background/Noite/6.png")));
             chao[0] = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/floor/Sliced/grass.png")));
             chao[1] = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/floor/Sliced/Tile_14.png")));
-            System.out.println("Leu os assets com sucesso - Background");
+            System.out.println("Leu os assets com sucesso - Noite");
         } catch (IOException e){
-            System.err.println("Não leu um ou mais asset - Background");
+            System.err.println("Não leu um ou mais asset - Noite");
         }
     }
     // Desenha o background na tela, carregado no GamePainel.java
     public void Renderizar(Graphics g, int movimento, int lua){
-            this.movimento = movimento;
-            this.lua = lua;
             g.drawImage(backgroundLayer[0], 0, -50,1280, 720,  null);
-            g.drawImage(backgroundLayer[1], lua, -50, 1280, 720, null );
+            g.drawImage(backgroundLayer[1], lua + 1330, -50, 1280, 720, null );
             g.drawImage(backgroundLayer[2], movimento, -50, 1280, 720, null);
             g.drawImage(backgroundLayer[2], movimento + 1280, -50, 1280, 720, null);
             g.drawImage(backgroundLayer[3], movimento, -50, 1280, 720, null);

@@ -21,7 +21,7 @@ public class Pontos {
     double velocidade = 0;
     private int cicloDia;
     private int ciclo = 0;
-    private int lua = 1480;
+    private int lua;
     private int luaVelocidade = 0;
 
 
@@ -50,7 +50,7 @@ public class Pontos {
                     }
 
                     luaVelocidade += 1;
-                    if (luaVelocidade == 220){
+                    if (luaVelocidade == 240){
                         lua -= 1;
                         luaVelocidade = 0;
                     } else if (lua == -2560) {

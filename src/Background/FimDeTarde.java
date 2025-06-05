@@ -7,13 +7,13 @@ import java.io.IOException;
 import java.util.Objects;
 
 
-public class Fim_de_Tarde {
+public class FimDeTarde {
 
-    private final BufferedImage[] backgroundLayer = new BufferedImage[6];
+    private final BufferedImage[] backgroundLayer = new BufferedImage[4];
     private final BufferedImage[] chao = new BufferedImage[2];
     private int movimento = 0;
 
-    public Fim_de_Tarde() {
+    public FimDeTarde() {
         // Carregar Background Asset
         try {
             backgroundLayer[0] = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/background/Final_de_tarde/1.png")));

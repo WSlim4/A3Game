@@ -4,15 +4,13 @@ import java.awt.*;
 
 public class PassagemDeTempo {
 
-    private int movimento;
-    private Day dia = new Day();
-    private Fim_de_Tarde tarde = new Fim_de_Tarde();
-    private Noite noite = new Noite();
-    private Amanhecer amanhecer = new Amanhecer();
+
+    private final Day dia = new Day();
+    private final FimDeTarde tarde = new FimDeTarde();
+    private final Noite noite = new Noite();
+    private final Amanhecer amanhecer = new Amanhecer();
 
     public void Renderizar (Graphics g, int movimento, int cicloDia, int lua){
-        this.movimento = movimento;
-
         if (cicloDia > -1 && cicloDia < 700){
             dia.Renderizar(g, movimento);
         } else if (cicloDia > 699 && cicloDia < 1000) {

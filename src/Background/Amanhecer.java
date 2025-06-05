@@ -9,9 +9,8 @@ import java.util.Objects;
 
 public class Amanhecer {
 
-    private final BufferedImage[] backgroundLayer = new BufferedImage[6];
+    private final BufferedImage[] backgroundLayer = new BufferedImage[4];
     private final BufferedImage[] chao = new BufferedImage[2];
-    private int movimento = 0;
 
     public Amanhecer() {
         // Carregar Background Asset
@@ -22,14 +21,13 @@ public class Amanhecer {
             backgroundLayer[3] = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/background/Amanhecer/4.png")));
             chao[0] = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/floor/Sliced/grass.png")));
             chao[1] = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/floor/Sliced/Tile_14.png")));
-            System.out.println("Leu os assets com sucesso - Background");
+            System.out.println("Leu os assets com sucesso - Amanhecer");
         } catch (IOException e){
-            System.err.println("Não leu um ou mais asset - Background");
+            System.err.println("Não leu um ou mais asset - Amanhecer");
         }
     }
     // Desenha o background na tela, carregado no GamePainel.java
     public void Renderizar(Graphics g, int movimento){
-            this.movimento = movimento;
             g.drawImage(backgroundLayer[0], 0, -50,1280, 720,  null);
             g.drawImage(backgroundLayer[1], movimento, -50,1280,720, null);
             g.drawImage(backgroundLayer[1], movimento + 1280, -50, 1280, 720, null );
