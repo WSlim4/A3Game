@@ -1,6 +1,8 @@
 package Ponto;
 import Background.*;
 import Fonte.FontLoader;
+import Obstaculo.Obstaculo;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,6 +25,8 @@ public class Pontos {
     private int ciclo = 0;
     private int lua;
     private int luaVelocidade = 0;
+    private Obstaculo obstaculo = new Obstaculo();
+    private int velocidadeObstaculo = 0;
 
 
 
@@ -41,6 +45,8 @@ public class Pontos {
                         movimento = 0;
                         velocidade = 0;
                     }
+                    velocidadeObstaculo ++;
+                    obstaculo.move(velocidadeObstaculo);
 
                     ciclo++;
                     cicloDia = ciclo/700;

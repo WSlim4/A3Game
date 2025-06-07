@@ -1,4 +1,5 @@
 import Effects.Dust;
+import Obstaculo.Obstaculo;
 import Ponto.Pontos;
 import Update.Update;
 import Render.Render;
@@ -19,6 +20,7 @@ public class Game {
     private Dust dust;
     private GamePanel gamePanel;
     private Pontos pontos;
+    private Obstaculo obstaculo;
 
 
     {
@@ -26,13 +28,15 @@ public class Game {
         this.dust = new Dust(player);
         this.UserInput = new ProcessInput(player);
         this.pontos = new Pontos();
+        this.obstaculo = new Obstaculo();
 
 
         // Cria painel de jogo e passa os objetos
-        this.gamePanel = new GamePanel(player, dust, pontos);
+        this.gamePanel = new GamePanel(player, dust, pontos, obstaculo);
         gamePanel.addKeyListener(this.UserInput);
         gamePanel.setFocusable(true);
         gamePanel.requestFocusInWindow();
+
 
 
         // Criação da Janela do Jogo
