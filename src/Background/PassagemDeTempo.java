@@ -1,6 +1,10 @@
 package Background;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
 public class PassagemDeTempo {
 
@@ -9,6 +13,15 @@ public class PassagemDeTempo {
     private final FimDeTarde tarde = new FimDeTarde();
     private final Noite noite = new Noite();
     private final Amanhecer amanhecer = new Amanhecer();
+    private BufferedImage chao;
+
+    public PassagemDeTempo() {
+        try {
+            chao = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/floor/Sliced/grass.png")));
+        } catch (IOException e) {
+            System.err.println("Erro - Chao");
+        }
+    }
 
     public void Renderizar (Graphics g, int movimento, int cicloDia, int lua){
         if (cicloDia > -1 && cicloDia < 700){
@@ -20,5 +33,7 @@ public class PassagemDeTempo {
         } else if (cicloDia > 1699) {
             amanhecer.Renderizar(g, movimento);
         }
+        g.drawImage(chao, movimento, 548, 1280, 192, null);
+        g.drawImage(chao, movimento + 1280, 548, 1280, 192, null);
     }
 }

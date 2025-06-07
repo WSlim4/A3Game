@@ -19,8 +19,6 @@ public class Amanhecer {
             backgroundLayer[1] = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/background/Amanhecer/2.png")));
             backgroundLayer[2] = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/background/Amanhecer/3.png")));
             backgroundLayer[3] = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/background/Amanhecer/4.png")));
-            chao[0] = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/floor/Sliced/grass.png")));
-            chao[1] = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/floor/Sliced/Tile_14.png")));
             System.out.println("Leu os assets com sucesso - Amanhecer");
         } catch (IOException e){
             System.err.println("Não leu um ou mais asset - Amanhecer");
@@ -35,14 +33,5 @@ public class Amanhecer {
             g.drawImage(backgroundLayer[2], movimento + 1280, -50, 1280, 720, null);
             g.drawImage(backgroundLayer[3], movimento, -50, 1280, 720, null);
             g.drawImage(backgroundLayer[3], movimento + 1280, -50, 1280, 720, null);
-            for (int i = 0; i < 1280; i++) {
-                int x = i*32;
-                g.drawImage(chao[0], x, 548, 32, 32, null);
-                g.drawImage(chao[1], x, 580, 32, 32, null);
-                g.drawImage(chao[1], x, 612, 32, 32, null);
-                g.drawImage(chao[1], x, 644, 32, 32, null);
-                g.drawImage(chao[1], x, 676, 32, 32, null);
-                g.drawImage(chao[1], x, 708, 32, 32, null);
-            }
     }
 }

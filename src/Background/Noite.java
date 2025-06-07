@@ -21,8 +21,6 @@ public class Noite {
             backgroundLayer[3] = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/background/Noite/4.png")));
             backgroundLayer[4] = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/background/Noite/5.png")));
             backgroundLayer[5] = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/background/Noite/6.png")));
-            chao[0] = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/floor/Sliced/grass.png")));
-            chao[1] = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/floor/Sliced/Tile_14.png")));
             System.out.println("Leu os assets com sucesso - Noite");
         } catch (IOException e){
             System.err.println("Não leu um ou mais asset - Noite");
@@ -40,14 +38,5 @@ public class Noite {
             g.drawImage(backgroundLayer[4], movimento + 1280, -50, 1280, 720, null);
             g.drawImage(backgroundLayer[5], movimento, -50, 1280, 720, null);
             g.drawImage(backgroundLayer[5], movimento + 1280, -50, 1280, 720, null);
-            for (int i = 0; i < 1280; i++) {
-                int x = i*32;
-                g.drawImage(chao[0], x, 548, 32, 32, null);
-                g.drawImage(chao[1], x, 580, 32, 32, null);
-                g.drawImage(chao[1], x, 612, 32, 32, null);
-                g.drawImage(chao[1], x, 644, 32, 32, null);
-                g.drawImage(chao[1], x, 676, 32, 32, null);
-                g.drawImage(chao[1], x, 708, 32, 32, null);
-            }
     }
 }
