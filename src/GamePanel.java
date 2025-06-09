@@ -30,9 +30,8 @@ public class GamePanel extends JPanel {
         // Desenhos
         // background tem que ser o primeiro para não sobrepor o player e dust
         pontos.Renderizar(g); // incorpora pontuação e background
-        obstaculo.draw(g);
+        obstaculo.Renderizar(g);
         dust.Renderizar(g);
         player.Renderizar(g);
-
     }
 }

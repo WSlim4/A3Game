@@ -25,10 +25,12 @@ public class Pontos {
     private int ciclo = 0;
     private int lua;
     private int luaVelocidade = 0;
-    private Obstaculo obstaculo = new Obstaculo();
-    private int velocidadeObstaculo = 0;
+    private Obstaculo obstaculo;
 
-
+    public Pontos(Obstaculo obstaculo){
+        this.obstaculo = obstaculo;
+        System.out.println("Pontos contrutor");
+    }
 
     public void Tempo() {
         tempo = new Timer(1000, new ActionListener() {
@@ -38,6 +40,8 @@ public class Pontos {
                 if (teste) {
                     ms++;
                     velocidade += 1;
+
+
                     if (velocidade == 8){
                         movimento -= 1;
                         velocidade = 0;
@@ -45,8 +49,8 @@ public class Pontos {
                         movimento = 0;
                         velocidade = 0;
                     }
-                    velocidadeObstaculo ++;
-                    obstaculo.move(velocidadeObstaculo);
+
+                    obstaculo.move(velocidade);
 
                     ciclo++;
                     cicloDia = ciclo/700;
@@ -79,6 +83,10 @@ public class Pontos {
         g.setColor(Color.white);
         g.setFont(fonte);
         g.drawString(" " + pontos, 1100, 50);
+    }
+
+    public void setGameOver(boolean bool){
+        teste = bool;
     }
 
 }

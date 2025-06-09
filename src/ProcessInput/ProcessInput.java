@@ -24,10 +24,7 @@ public class ProcessInput implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int tecla = e.getKeyCode();
-        // Tecla "D"
-        if (tecla == KeyEvent.VK_D){
-            player.setAnimacao("run");
-        }
+        // Tecla "W"
         if (tecla == KeyEvent.VK_W){
             player.setAnimacao("death");
         }
