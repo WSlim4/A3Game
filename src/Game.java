@@ -19,16 +19,16 @@ public class Game {
     private Player player;
     private Dust dust;
     private GamePanel gamePanel;
-    private Pontos pontos;
     private Obstaculo obstaculo;
+    private Pontos pontos;
 
 
     {
-        this.player = new Player();
+        this.obstaculo = new Obstaculo();
+        this.pontos = new Pontos(obstaculo);
+        this.player = new Player(pontos);
         this.dust = new Dust(player);
         this.UserInput = new ProcessInput(player);
-        this.pontos = new Pontos();
-        this.obstaculo = new Obstaculo();
 
 
         // Cria painel de jogo e passa os objetos
@@ -50,7 +50,7 @@ public class Game {
         janela.setVisible(true);
 
 
-        this.UpdateState = new Update();
+        this.UpdateState = new Update(player, obstaculo);
         this.Renderer = new Render();
 
         System.out.println("Controle de Sprite: \n- 'D' - Correr\n- 'W' - Morte\n Nada - Ocioso");
