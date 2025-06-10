@@ -3,56 +3,94 @@ package Obstaculo;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 public class Obstaculo {
-    private int x = 800;
-    private int y = 507;
-    private int width = 27;
-    private int height = 14;
-    private BufferedImage rockImage;
-    private int velocidadeContador = 0;
+    protected int upscaling = 3; //Define em quantas vezes o obstáculo será maior
 
-    int upscaling = 3; //Define em quantas vezes o obstáculo será maior
+    protected int width = 27; // Largura do sprite
+    protected int height = 14; // Altura do Sprite
+    protected int x = 800; // Posição horizontal do primeiro sprite
+    protected int y = 548-height*upscaling; // Posição vertical do primeiro sprite
+    protected boolean verHitbox = true; // Ative para visualizar a hitbox de todos os obstáculos
+    private BufferedImage rockImage; // Carregar o primeiro obstáculo
+    protected int velocidadeContador = 0; // Aumenta a velocidade de movimento
+    private String obstaculo = "moita"; // Sprite do primeiro obstáculo
 
-    private Rectangle hitbox = new Rectangle(x, y, width * upscaling, height * upscaling); // Cria a hitbox do obstáculo
+    // Variável para a hitbox
+    protected Rectangle hitbox = new Rectangle(x, (y-height*upscaling), width * upscaling, height * upscaling); // Cria a hitbox do obstáculo
 
+    // Construtor com primeiro obstáculo
     public Obstaculo() {
 
-        // Carrega a imagem da pedra
         try {
-            rockImage = ImageIO.read(getClass().getResource("/resource/objects/Sliced/moita.png"));
+            rockImage = ImageIO.read(getClass().getResource("/resource/objects/Sliced/" + obstaculo + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    public void move(double speed) {
+    // Construtor com hitbox do tamanho da sprite
+    public Obstaculo(int x, int y, int width, int height, int upscaling) {
+        this.x = x;
+        this.y = (y-height*upscaling);
+        this.width = width;
+        this.height = height;
+        this.upscaling = upscaling;
+        this.hitbox = new Rectangle(x, (y-height*upscaling), width * upscaling, height * upscaling);
+    }
+
+    // Construtor com hitbox personalizado
+    public Obstaculo(int x, int y, int width, int height, int upscaling, int hitWidth, int hitHeight) {
+        this.x = x;
+        this.y = (y-height*upscaling);
+        this.width = width;
+        this.height = height;
+        this.upscaling = upscaling;
+        this.hitbox = new Rectangle(x, y+(height*2), hitWidth * upscaling, hitHeight * upscaling);
+    }
+
+    // Movimento horizontal e gradual do obstáculo
+    public void move() {
         velocidadeContador++;
         if (velocidadeContador >= 8) {
             this.x -= 1;
             velocidadeContador = 0;
         }
 
-        if (x < -width * upscaling) {
-            x = 1280;
-        }
-        hitbox.setLocation(x, y);
+        //if (x < -width * upscaling) {
+        //    this = null;
+        //}
+        hitbox.setLocation(x + (width * upscaling - hitbox.width) / 2, y + (height * upscaling - hitbox.height) / 2);
     }
 
+    // Renderiza na tela
     public void Renderizar(Graphics g) {
         //System.out.println("Obstaculo" + x);
         g.drawImage(rockImage, x, y, width * upscaling, height * upscaling, null);
 
+
         // Descomente essa parte para ver a hitbox
-        // g.setColor(Color.RED);
-        // g.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
+        if (verHitbox){
+            g.setColor(Color.RED);
+            g.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
+            System.out.println(hitbox.y+" "+ hitbox.width+ " "+ hitbox.height);
+        }
     }
 
-    public Rectangle getHitbox(){
+
+    public Rectangle getHitbox() {
         return hitbox;
     }
 
+    // Método para importar a intancia dos pontos
+
+    public int getX(){
+        return x;
+    }
+
+    public int getWidth(){
+        return width*upscaling;
+    }
 }
