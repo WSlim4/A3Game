@@ -35,7 +35,7 @@ public class ProcessInput implements KeyListener {
         int tecla = e.getKeyCode();
         // Tecla "D"
         if (tecla == KeyEvent.VK_D){
-            player.setAnimacao("idle");
+            player.setAnimacao("run");
         }
     }
 
