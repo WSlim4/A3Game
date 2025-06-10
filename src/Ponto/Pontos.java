@@ -7,11 +7,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.ArrayList;
-import java.util.Objects;
+
 
 public class Pontos {
 
+    private List<Obstaculo> listaObstaculos;
     private long ms = 0;
     private long pontos = 0;
     Font fonte = FontLoader.loadFont("src/resource/font/font.otf", 30f);
@@ -50,7 +52,10 @@ public class Pontos {
                         velocidade = 0;
                     }
 
-                    obstaculo.move(velocidade);
+                    obstaculo.move();
+                    for (Obstaculo o : listaObstaculos) {
+                        o.move();
+                    }
 
                     ciclo++;
                     cicloDia = ciclo/700;
@@ -85,8 +90,16 @@ public class Pontos {
         g.drawString(" " + pontos, 1100, 50);
     }
 
+    public double getVelocidade(){
+        return velocidade;
+    }
+
     public void setGameOver(boolean bool){
         teste = bool;
+    }
+
+    public void setObstaculos(List<Obstaculo> obstaculos){
+        this.listaObstaculos = obstaculos;
     }
 
 }
