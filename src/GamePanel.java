@@ -2,6 +2,7 @@ import Obstaculo.Obstaculo;
 import Player.Player;
 import Effects.Dust;
 import Ponto.Pontos;
+import Update.Update;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,13 +13,15 @@ public class GamePanel extends JPanel {
     private Dust dust;
     private Pontos pontos;
     private Obstaculo obstaculo;
+    private Update update;
 
 
-    public GamePanel(Player player, Dust dust, Pontos pontos, Obstaculo obstaculo) {
+    public GamePanel(Player player, Dust dust, Pontos pontos, Obstaculo obstaculo, Update update) {
         this.player = player;
         this.dust = dust;
         this.pontos = pontos;
         this.obstaculo = obstaculo;
+        this.update = update;
         setPreferredSize(new Dimension(1280, 720));
         setFocusable(true);
     }
@@ -33,5 +36,6 @@ public class GamePanel extends JPanel {
         obstaculo.Renderizar(g);
         dust.Renderizar(g);
         player.Renderizar(g);
+        update.Renderizar(g);
     }
 }
