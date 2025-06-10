@@ -38,7 +38,7 @@ public class Update {
         long agora = System.currentTimeMillis();
         if (agora - ultimoFrame >= 100){
             if (tempoAtual >= chanceObstaculo){
-                if(chanceObstaculo >= 1.2){
+                if(chanceObstaculo >= 2){
                     chanceObstaculo -= 0.4;
                 }
                 tempoAtual = 0;
@@ -88,6 +88,7 @@ public class Update {
         }
 
         obstaculos.add(o);
+        System.out.println(obstaculos);
     }
 
     public void Renderizar(Graphics g) {
