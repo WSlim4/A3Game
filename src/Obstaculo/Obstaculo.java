@@ -12,7 +12,7 @@ public class Obstaculo {
     protected int height = 14; // Altura do Sprite
     protected int x = 800; // Posição horizontal do primeiro sprite
     protected int y = 548-height*upscaling; // Posição vertical do primeiro sprite
-    protected boolean verHitbox = true; // Ative para visualizar a hitbox de todos os obstáculos
+    protected boolean verHitbox = false; // Ative para visualizar a hitbox de todos os obstáculos
     private BufferedImage rockImage; // Carregar o primeiro obstáculo
     protected int velocidadeContador = 0; // Aumenta a velocidade de movimento
     private String obstaculo = "moita"; // Sprite do primeiro obstáculo

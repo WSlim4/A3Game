@@ -58,7 +58,8 @@ public class Update {
     }
 
     public void sortearObstaculo() {
-        int tipo = random.nextInt(4,5);
+        int tipo = random.nextInt(0,5);
+
 
         Obstaculo o = null;
 
