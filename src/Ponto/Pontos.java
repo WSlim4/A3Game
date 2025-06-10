@@ -1,3 +1,4 @@
+
 package Ponto;
 import Background.*;
 import Fonte.FontLoader;
@@ -13,7 +14,6 @@ public class Pontos {
     private long ms = 0;
     private long pontos = 0;
     Font fonte = FontLoader.loadFont("src/resource/font/font.otf", 30f);
-    // teste é para ser substituido por uma boolean que indica Game Over ou não
     private boolean teste = true;
     private Timer tempo;
     private PassagemDeTempo passagemDeTempo = new PassagemDeTempo();
@@ -24,13 +24,14 @@ public class Pontos {
     private int lua;
     private int luaVelocidade = 0;
 
-
-
     public void Tempo() {
+        if (tempo != null) {
+            tempo.stop(); // Evita múltiplos timers
+        }
+
         tempo = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // nesta posição é para ser "se game over for falso"
                 if (teste) {
                     ms++;
                     velocidade += 1;
@@ -58,15 +59,12 @@ public class Pontos {
                         luaVelocidade = 0;
                     }
 
-                    // valor temporário de pontos, após a finalização do jogo podemos mudar isso
                     pontos = ms/700;
-
                 }
             }
         });
         tempo.start();
     }
-
 
     public void Renderizar(Graphics g){
         passagemDeTempo.Renderizar(g, movimento, cicloDia, lua);
@@ -75,4 +73,36 @@ public class Pontos {
         g.drawString(" " + pontos, 1100, 50);
     }
 
+    // Novos métodos para controle do timer
+    public void stopTimer() {
+        teste = false;
+        if (tempo != null) {
+            tempo.stop();
+        }
+    }
+
+    public void startTimer() {
+        teste = true;
+        if (tempo != null) {
+            tempo.start();
+        } else {
+            Tempo();
+        }
+    }
+
+    public void resetPontos() {
+        ms = 0;
+        pontos = 0;
+        movimento = 0;
+        velocidade = 0;
+        ciclo = 0;
+        cicloDia = 0;
+        lua = 0;
+        luaVelocidade = 0;
+        teste = true;
+        if (tempo != null) {
+            tempo.stop();
+        }
+        Tempo();
+    }
 }
