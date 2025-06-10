@@ -19,17 +19,14 @@ public class Player extends JPanel {
     private boolean noChao = true; // Detecta se o personagem está no chão atualmente
     private boolean isGameOver = false;
 
-    private int intervaloFrame = 120; // Intervalo para diminuir o tempo de troca do frames
+    private double intervaloFrame = 1200; // Intervalo para diminuir o tempo de troca do frames
+    private double aceleracao = 100;
 
-    public double gravidade = -0.1; //Aceleração vertical para integrar com física
-    public double velocidadeY = 0; // Velocidade atual para movimento e mudanca de sprite
-    public int forcaPulo = 10; // altura do pulo
-
-    private int frameAtual = 2; // Define o índice do frame da planilha;
-    private long ultimoFrame = 0;
+    private int frameAtual = 1; // Define o índice do frame da planilha;
+    private long ultimoFrame = 0; // armazena o tempo em que o ultimo frame foi executado em milissegundos
 
     // Animação atual do sprite
-    private String animacao = "idle";
+    private String animacao = "run";
 
     // Variáveis para planilha de sprite e seleção de frame
     private BufferedImage sheet;
@@ -56,24 +53,26 @@ public class Player extends JPanel {
     public void Renderizar(Graphics g) {
         g.drawImage(frame, posX, posY, largura * upscaling, altura * upscaling, null);
 
-        // Descomente essa parte para ver a hitbox
+        // Descomente essa parte para ver a hitbox do jogador
         // g.setColor(Color.RED);
         // g.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
     }
 
+    // Troca os frames da planilhad e sprites por um tempo definido pela variável
     public void setFrameAtual(int frameAtual){
         long agora = System.currentTimeMillis();
 
         if (agora - ultimoFrame >= intervaloFrame) {
             try {
-                this.frameAtual = frameAtual;
-                this.frame = sheet.getSubimage((frameAtual * largura), 0, largura, altura);
-            } catch (RasterFormatException e) {
+                this.frameAtual = frameAtual; // Define o novo frame
+                this.frame = sheet.getSubimage((frameAtual * largura), 0, largura, altura); // Recorta o frame com o novo frame
+            } catch (RasterFormatException e) { // Caso ocorra erro, defini para o frame 0
                 System.err.println("Frame passou dos limites do spriteSheet, Resetando para o frame 0.");
                 this.frameAtual = 0;
                 this.frame = sheet.getSubimage(0, 0, largura, altura);
             }
             repaint();
+            acelerarPlayer();
             ultimoFrame = agora;
         }
     }
@@ -83,15 +82,15 @@ public class Player extends JPanel {
     }
 
     public void setAnimacao(String animacao){
-        this.animacao = animacao;
+        this.animacao = animacao; // Atualiza com a nova atualização
         try {
-            sheet = ImageIO.read(getClass().getResourceAsStream("/resource/sprite/p1_" + animacao + ".png"));
-            try {
+            sheet = ImageIO.read(getClass().getResourceAsStream("/resource/sprite/p1_" + animacao + ".png")); // Carrega a nova animação
+            try { // Tenta fazer o recorte da planilha de sprites, se der erro, defini o frame em 0 novamente
                 frame = sheet.getSubimage((frameAtual * largura), 0, largura, altura);
             } catch (RasterFormatException e) {
                 System.err.println("O Frame atual acima fora do limite da nova animação, colocando para o primeiro frame.");
-                frameAtual = 0;
-                frame = sheet.getSubimage(0, 0, largura, altura);
+                frameAtual = 0; // Define o frame atual para 0
+                frame = sheet.getSubimage(0, 0, largura, altura); // Recorta o primeiro frame do sprite
             }
         } catch (IOException | NullPointerException e){
             System.out.println("Erro ao trocar animação: " + e);
@@ -102,16 +101,11 @@ public class Player extends JPanel {
         return animacao;
     }
 
-    public int getIntervaloFrame(){ return intervaloFrame; }
-
-    public void setIntervaloFrame(int intervaloFrame){
-        this.intervaloFrame = intervaloFrame;
-    }
-
     public Rectangle getHitbox() {
         return hitbox;
     }
 
+    // Executa os metodos de Game Over
     public void gameOver(boolean bool){
         isGameOver = bool;
         setAnimacao("death");
@@ -119,5 +113,15 @@ public class Player extends JPanel {
         // pontos.setGameOver(false);
     }
 
+    // Faz com que a velocidade da animação seja gradual
+    public void acelerarPlayer(){
+        long agora = System.currentTimeMillis();
+        if (intervaloFrame > 120){
+            if (agora - ultimoFrame >= 100){
+                intervaloFrame -= aceleracao;
+                aceleracao -= 4;
+            }
+        }
+    }
 }
 
