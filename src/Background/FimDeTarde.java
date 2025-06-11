@@ -28,7 +28,7 @@ public class FimDeTarde {
     public void Renderizar(Graphics g, int movimento){
             g.drawImage(backgroundLayer[0], 0, -50,1280, 720,  null);
             g.drawImage(backgroundLayer[1], movimento, -50,1280,720, null);
-            g.drawImage(backgroundLayer[1], movimento + 1280, -50, 1280, 720, null );
+            g.drawImage(backgroundLayer[1], movimento + 1280, -50, 1280, 720, null);
             g.drawImage(backgroundLayer[2], movimento, -50, 1280, 720, null);
             g.drawImage(backgroundLayer[2], movimento + 1280, -50, 1280, 720, null);
             g.drawImage(backgroundLayer[3], movimento, -50, 1280, 720, null);

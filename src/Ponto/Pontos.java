@@ -80,7 +80,12 @@ public class Pontos {
             }
         });
         tempo.start();
+
     }
+
+
+
+
 
 
     public void Renderizar(Graphics g){
@@ -95,7 +100,7 @@ public class Pontos {
     }
 
     public void setGameOver(boolean bool){
-        teste = bool;
+        boolean teste = bool;
     }
 
     public void setObstaculos(List<Obstaculo> obstaculos){

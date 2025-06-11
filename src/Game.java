@@ -8,33 +8,33 @@ import Player.Player;
 import javax.swing.*;
 
 public class Game {
-    private Update UpdateState;
-    private Render Renderer;
-    private ProcessInput UserInput;
+    private final Update UPDATE_STATE;
+    private final Render RENDERER;
+    private final ProcessInput USER_INPUT;
 
-    private Player player;
-    private Dust dust;
-    private GamePanel gamePanel;
-    private Obstaculo obstaculo;
-    private Pontos pontos;
+    private final Player PLAYER;
+    private final Dust DUST;
+    private final GamePanel GAMEPANEL;
+    private final Obstaculo OBSTACULO;
+    private final Pontos PONTOS;
 
 
     {
-        this.obstaculo = new Obstaculo();
-        this.pontos = new Pontos(obstaculo);
-        this.player = new Player(pontos);
-        this.dust = new Dust(player);
-        this.UserInput = new ProcessInput(player);
-        this.UpdateState = new Update(player, obstaculo);
+        this.OBSTACULO = new Obstaculo();
+        this.PONTOS = new Pontos(OBSTACULO);
+        this.PLAYER = new Player(PONTOS);
+        this.DUST = new Dust(PLAYER);
+        this.USER_INPUT = new ProcessInput(PLAYER);
+        this.UPDATE_STATE = new Update(PLAYER, OBSTACULO);
 
-        this.pontos.setObstaculos(UpdateState.getObstaculos());
+        this.PONTOS.setObstaculos(UPDATE_STATE.getObstaculos());
 
 
         // Cria painel de jogo e passa os objetos
-        this.gamePanel = new GamePanel(player, dust, pontos, obstaculo, UpdateState);
-        gamePanel.addKeyListener(this.UserInput);
-        gamePanel.setFocusable(true);
-        gamePanel.requestFocusInWindow();
+        this.GAMEPANEL = new GamePanel(PLAYER, DUST, PONTOS, OBSTACULO, UPDATE_STATE);
+        GAMEPANEL.addKeyListener(this.USER_INPUT);
+        GAMEPANEL.setFocusable(true);
+        GAMEPANEL.requestFocusInWindow();
 
 
 
@@ -42,7 +42,7 @@ public class Game {
         JFrame janela = new JFrame();
         janela.setTitle("Dino Run");
         janela.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        janela.setContentPane(gamePanel);
+        janela.setContentPane(GAMEPANEL);
         janela.pack();
         janela.setLocationRelativeTo(null);
         janela.setResizable(false);
@@ -50,23 +50,23 @@ public class Game {
 
 
 
-        this.Renderer = new Render();
+        this.RENDERER = new Render();
 
         System.out.println("Controle de Sprite: \n- 'D' - Correr\n- 'W' - Morte\n Nada - Ocioso");
     }
 
-    {
-
-    }
 
     public void run() {
         while (true) {
-            this.UserInput.read();
-            this.UpdateState.update();
-            pontos.Tempo();
-            this.Renderer.render(this.player, this.dust);
-            gamePanel.repaint();
-            try { Thread.sleep(16); } catch (Exception e) {}
+            this.USER_INPUT.read();
+            this.UPDATE_STATE.update();
+            PONTOS.Tempo();
+            this.RENDERER.render(this.PLAYER, this.DUST);
+            GAMEPANEL.repaint();
+            try { Thread.sleep(16); } catch (Exception e) {
+                e.fillInStackTrace();
+                throw new RuntimeException();
+            }
         }
     }
 }
