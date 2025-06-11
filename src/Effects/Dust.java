@@ -40,10 +40,11 @@ public class Dust {
 
     // Desenha na tela, carregado no GamePainel.java
     public void Renderizar(Graphics g) {
+        x += velocidadeX;
+
         if(Objects.equals(player.getAnimacao(), "run")) {
             g.drawImage(frame, x, y, (largura * upscaling), (altura * upscaling), null);
         }
-        x += velocidadeX;
     }
 
     public int getFrameAtual(){
@@ -52,6 +53,13 @@ public class Dust {
 
     public void setFrameAtual(int frameAtual){
         long agora = System.currentTimeMillis();
+
+        if (frameAtual == 0) {
+            // Caso ele reinicie o loop, o frame é definido para o primeiro
+            this.frameAtual = 0;
+            frame = sheet.getSubimage(0, 0, largura, altura);
+            ultimoFrame = agora;
+        }
 
         if (agora - ultimoFrame >= intervaloFrame) {
             this.frameAtual = frameAtual;
