@@ -35,3 +35,12 @@ Thumbs.db
 # ========================
 *.bak
 *.old
+
+# Pastas de compilação
+/out/
+out/
+
+#Sons e imagens compiladas
+*.wav
+*.png
+*.jpg
