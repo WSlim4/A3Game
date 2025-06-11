@@ -20,6 +20,9 @@ public class Render {
                 case "death":
                     quantFrame = 2;
                     break;
+                case "hit":
+                    quantFrame = 1;
+                    break;
             }
             novoFramePlayer = (player.getFrameAtual() + 1) % quantFrame;
             player.setFrameAtual(novoFramePlayer);
