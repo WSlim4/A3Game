@@ -17,9 +17,11 @@ public class Game {
     private GamePanel gamePanel;
     private Obstaculo obstaculo;
     private Pontos pontos;
+    private JFrame janela;
 
+    public boolean started = false;
 
-    {
+    public Game() {
         this.obstaculo = new Obstaculo();
         this.pontos = new Pontos(obstaculo);
         this.player = new Player(pontos);
@@ -29,17 +31,18 @@ public class Game {
 
         this.pontos.setObstaculos(UpdateState.getObstaculos());
 
-
-        // Cria painel de jogo e passa os objetos
         this.gamePanel = new GamePanel(player, dust, pontos, obstaculo, UpdateState);
         gamePanel.addKeyListener(this.UserInput);
         gamePanel.setFocusable(true);
         gamePanel.requestFocusInWindow();
 
+        this.Renderer = new Render();
 
+        System.out.println("Controle de Sprite: \n- 'D' - Correr\n- 'W' - Morte\n Nada - Ocioso");
+    }
 
-        // Criação da Janela do Jogo
-        JFrame janela = new JFrame();
+    public void start() {
+        janela = new JFrame();
         janela.setTitle("Dino Run");
         janela.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         janela.setContentPane(gamePanel);
@@ -47,15 +50,7 @@ public class Game {
         janela.setLocationRelativeTo(null);
         janela.setResizable(false);
         janela.setVisible(true);
-
-
-
-        this.Renderer = new Render();
-
-        System.out.println("Controle de Sprite: \n- 'D' - Correr\n- 'W' - Morte\n Nada - Ocioso");
-    }
-
-    {
+        gamePanel.requestFocusInWindow();
 
     }
 
@@ -63,7 +58,11 @@ public class Game {
         while (true) {
             this.UserInput.read();
             this.UpdateState.update();
-            pontos.Tempo();
+
+            if (started) {
+                pontos.Tempo();
+            }
+
             this.Renderer.render(this.player, this.dust);
             gamePanel.repaint();
             try { Thread.sleep(16); } catch (Exception e) {}
