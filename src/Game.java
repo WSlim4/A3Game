@@ -8,15 +8,15 @@ import Player.Player;
 import javax.swing.*;
 
 public class Game {
-    private Update UpdateState;
-    private Render Renderer;
-    private ProcessInput UserInput;
+    private final Update UpdateState;
+    private final Render Renderer;
+    private final ProcessInput UserInput;
 
-    private Player player;
-    private Dust dust;
-    private GamePanel gamePanel;
-    private Obstaculo obstaculo;
-    private Pontos pontos;
+    private final Player player;
+    private final Dust dust;
+    private final GamePanel gamePanel;
+    private final Obstaculo obstaculo;
+    private final Pontos pontos;
 
 
     {
@@ -24,8 +24,8 @@ public class Game {
         this.pontos = new Pontos(obstaculo);
         this.player = new Player(pontos);
         this.dust = new Dust(player);
+        this.UpdateState = new Update(player, obstaculo, pontos);
         this.UserInput = new ProcessInput(player);
-        this.UpdateState = new Update(player, obstaculo);
 
         this.pontos.setObstaculos(UpdateState.getObstaculos());
 
@@ -53,10 +53,6 @@ public class Game {
         this.Renderer = new Render();
 
         System.out.println("Controle de Sprite: \n- 'D' - Correr\n- 'W' - Morte\n Nada - Ocioso");
-    }
-
-    {
-
     }
 
     public void run() {
