@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Obstaculo {
     protected int upscaling = 3; //Define em quantas vezes o obstáculo será maior
@@ -15,7 +16,7 @@ public class Obstaculo {
     protected boolean verHitbox = false; // Ative para visualizar a hitbox de todos os obstáculos
     private BufferedImage rockImage; // Carregar o primeiro obstáculo
     protected int velocidadeContador = 0; // Aumenta a velocidade de movimento
-    private String obstaculo = "moita"; // Sprite do primeiro obstáculo
+    private final String OBSTACULO = "moita"; // Sprite do primeiro obstáculo
 
     // Variável para a hitbox
     protected Rectangle hitbox = new Rectangle(x, (y-height*upscaling), width * upscaling, height * upscaling); // Cria a hitbox do obstáculo
@@ -24,9 +25,10 @@ public class Obstaculo {
     public Obstaculo() {
 
         try {
-            rockImage = ImageIO.read(getClass().getResource("/resource/objects/Sliced/" + obstaculo + ".png"));
+            rockImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/objects/Sliced/" + OBSTACULO + ".png")));
         } catch (IOException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
+            throw new RuntimeException();
         }
 
     }

@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Noite {
 
     private final BufferedImage[] backgroundLayer = new BufferedImage[6];
-    private final BufferedImage[] chao = new BufferedImage[2];
+
 
     public Noite() {
         // Carregar Background Asset

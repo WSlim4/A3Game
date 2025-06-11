@@ -1,6 +1,7 @@
 package ProcessInput;
 
 import Player.Player;
+import Update.Update;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -8,6 +9,7 @@ import java.awt.event.KeyListener;
 public class ProcessInput implements KeyListener {
 
     Player player;
+    Update update;
 
     public ProcessInput(Player player) {
         this.player = player;
@@ -24,9 +26,16 @@ public class ProcessInput implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int tecla = e.getKeyCode();
-        // Tecla "W"
-        if (tecla == KeyEvent.VK_W){
-            player.setAnimacao("death");
+        // Tecla "ESPAÇO"
+        if (tecla == KeyEvent.VK_SPACE && player.getNoChao()){
+            try {
+                player.setAnimacao("idle");
+                player.setNoChao(false);
+                int y = 0;
+                update.setVelocidadeY(y);
+            }catch (NullPointerException n){
+                throw new RuntimeException();
+            }
         }
     }
 
@@ -38,5 +47,6 @@ public class ProcessInput implements KeyListener {
             player.setAnimacao("run");
         }
     }
+
 
 }

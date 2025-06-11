@@ -10,7 +10,6 @@ import java.util.Objects;
 public class Day  {
 
     private final BufferedImage[] backgroundLayer = new BufferedImage[3];
-    private final BufferedImage[] chao = new BufferedImage[2];
 
     public Day() {
         // Carregar Background Asset

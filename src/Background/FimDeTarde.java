@@ -10,8 +10,7 @@ import java.util.Objects;
 public class FimDeTarde {
 
     private final BufferedImage[] backgroundLayer = new BufferedImage[4];
-    private final BufferedImage[] chao = new BufferedImage[2];
-    private int movimento = 0;
+
 
     public FimDeTarde() {
         // Carregar Background Asset
@@ -27,7 +26,6 @@ public class FimDeTarde {
     }
     // Desenha o background na tela, carregado no GamePainel.java
     public void Renderizar(Graphics g, int movimento){
-            this.movimento = movimento;
             g.drawImage(backgroundLayer[0], 0, -50,1280, 720,  null);
             g.drawImage(backgroundLayer[1], movimento, -50,1280,720, null);
             g.drawImage(backgroundLayer[1], movimento + 1280, -50, 1280, 720, null );

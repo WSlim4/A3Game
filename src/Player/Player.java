@@ -6,18 +6,22 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.RasterFormatException;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Player extends JPanel {
 
     // Sprite do jogador
     private int largura = 32; // Altura px do personagem
     private int altura = 16; // Largura px do personagem
-    private final int upscaling = 3; // Vezes de aumento do personagem na tela
+    private final int UPSCALING = 3; // Vezes de aumento do personagem na tela
     private int posX = 100; // Posição horizontal inicial
     private int posY = 500; // Posição vertical inicial
-    private Rectangle hitbox = new Rectangle(posX+20, posY, largura*upscaling/2, altura*upscaling); // Hitbox do jogador
+    private Rectangle hitbox = new Rectangle(posX+20, posY, largura*UPSCALING/2, altura*UPSCALING); // Hitbox do jogador
     private boolean noChao = true; // Detecta se o personagem está no chão atualmente
     private boolean isGameOver = false;
+
+    private final int GRAVIDADE = 1;
+    private final int FORCA_PULO = -15;
 
     private double intervaloFrame = 1200; // Intervalo para diminuir o tempo de troca do frames
     private double aceleracao = 100;
@@ -38,12 +42,13 @@ public class Player extends JPanel {
     // Construtor
     public Player(Pontos pontos) {
         try {
-            sheet = ImageIO.read(getClass().getResourceAsStream("/resource/sprite/p1_" + animacao + ".png"));
+            sheet = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/resource/sprite/p1_" + animacao + ".png")));
             frame = sheet.getSubimage((frameAtual * largura), 0, 32, 16);
             System.out.println("Planilha de jogador carregada :D");
         } catch (IOException | NullPointerException e) {
             System.err.println("Erro na planilha :( " + e.getMessage());
-            e.printStackTrace();
+            e.fillInStackTrace();
+            throw new RuntimeException();
         }
 
         // Importar instancias
@@ -51,7 +56,7 @@ public class Player extends JPanel {
     }
     // Desenha na tela, carregado no GamePainel.java
     public void Renderizar(Graphics g) {
-        g.drawImage(frame, posX, posY, largura * upscaling, altura * upscaling, null);
+        g.drawImage(frame, posX, posY, largura * UPSCALING, altura * UPSCALING, null);
 
         // Descomente essa parte para ver a hitbox do jogador
         // g.setColor(Color.RED);
@@ -84,7 +89,7 @@ public class Player extends JPanel {
     public void setAnimacao(String animacao){
         this.animacao = animacao; // Atualiza com a nova atualização
         try {
-            sheet = ImageIO.read(getClass().getResourceAsStream("/resource/sprite/p1_" + animacao + ".png")); // Carrega a nova animação
+            sheet = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/resource/sprite/p1_" + animacao + ".png"))); // Carrega a nova animação
             try { // Tenta fazer o recorte da planilha de sprites, se der erro, defini o frame em 0 novamente
                 frame = sheet.getSubimage((frameAtual * largura), 0, largura, altura);
             } catch (RasterFormatException e) {
@@ -122,6 +127,30 @@ public class Player extends JPanel {
                 aceleracao -= 4;
             }
         }
+    }
+
+    public boolean getNoChao(){
+        return noChao;
+    }
+
+    public void setNoChao(boolean noChao){
+        this.noChao = noChao;
+    }
+
+    public int getGRAVIDADE(){
+        return GRAVIDADE;
+    }
+
+    public int getFORCA_PULO() {
+        return FORCA_PULO;
+    }
+
+    public int getPosY(){
+        return posY;
+    }
+
+    public void setPosY(int posY){
+        this.posY = posY;
     }
 }
 

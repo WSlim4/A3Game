@@ -3,7 +3,10 @@ package Update;
 import Player.Player;
 import Obstaculo.*;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -23,6 +26,11 @@ public class Update {
 
 
     private boolean colidiu = false;
+
+    private int velocidadeY;
+    private int posY = 500;
+    private int alturaChao = 500;
+    private Timer planar;
 
     public void update() {
         if (!colidiu){
@@ -47,6 +55,20 @@ public class Update {
             tempoAtual += 0.1;
             //System.out.println(tempoAtual);
             ultimoFrame = agora;
+        }
+
+        if (!player.getNoChao()){
+            velocidadeY += player.getGRAVIDADE();
+            posY += velocidadeY;
+            player.setPosY(posY);
+
+
+            if (player.getPosY() >= alturaChao){
+                player.setPosY(alturaChao);
+                player.setNoChao(true);
+                velocidadeY = player.getFORCA_PULO();
+                player.setAnimacao("run");
+            }
         }
 
     }
@@ -101,5 +123,9 @@ public class Update {
 
     public List<Obstaculo> getObstaculos() {
         return obstaculos;
+    }
+
+    public void setVelocidadeY(int velocidadeY){
+        this.velocidadeY = velocidadeY;
     }
 }

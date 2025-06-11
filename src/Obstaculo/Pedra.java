@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Pedra extends Obstaculo{
     private BufferedImage sprite;
@@ -11,9 +12,10 @@ public class Pedra extends Obstaculo{
     public Pedra() {
         super(1280, 548, 10, 7, 5);
         try {
-            sprite = ImageIO.read(getClass().getResource("/resource/objects/Sliced/pedra.png"));
+            sprite = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/objects/Sliced/pedra.png")));
         } catch (IOException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
+            throw new RuntimeException();
         }
     }
 

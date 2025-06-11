@@ -10,7 +10,6 @@ import java.util.Objects;
 public class Amanhecer {
 
     private final BufferedImage[] backgroundLayer = new BufferedImage[4];
-    private final BufferedImage[] chao = new BufferedImage[2];
 
     public Amanhecer() {
         // Carregar Background Asset
