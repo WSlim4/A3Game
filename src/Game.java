@@ -31,7 +31,10 @@ public class Game {
         this.pontos = new Pontos(obstaculo);
         this.player = new Player(pontos);
         this.dust = new Dust(player);
-        this.UpdateState = new Update(player, obstaculo, pontos);
+        this.UpdateState = new Update(player, obstaculo, pontos, () -> {
+            janela.dispose();
+            SwingUtilities.invokeLater(() -> new GameOver().setVisible(true));
+        });
         this.UserInput = new ProcessInput(player);
 
         this.pontos.setObstaculos(UpdateState.getObstaculos());

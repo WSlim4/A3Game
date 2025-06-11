@@ -15,6 +15,7 @@ public class Update {
     private final Player player;
     private final Obstaculo obstaculo;
     private final Pontos pontos;
+    private final Runnable onGameOver;
 
     private final Random random = new Random(); // Variável para sorteio de Obstáculos
     private final List<Obstaculo> obstaculos = new ArrayList<>();
@@ -73,6 +74,9 @@ public class Update {
                             // Instruções executadas com delay de 3 segundos após a morte
 
                             System.out.println("GameOver finalizado");
+                            if (onGameOver != null) {
+                                onGameOver.run();
+                            }
                         }
                     }, 3500);
                 }
@@ -108,11 +112,12 @@ public class Update {
         }
     }
 
-    public Update(Player player, Obstaculo obstaculo, Pontos pontos){
+    public Update(Player player, Obstaculo obstaculo, Pontos pontos, Runnable onGameOver) {
         this.player = player;
         this.obstaculo = obstaculo;
         this.pontos = pontos;
-
+        this.onGameOver = onGameOver;
+        // ... rest of constructor ...
         try {
             soundHit = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getResourceAsStream("/resource/audio/effects/hit.wav")));
             soundQueda = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getResourceAsStream("/resource/audio/effects/Queda.wav")));
