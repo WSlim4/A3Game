@@ -4,16 +4,17 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class PedraGrande extends Obstaculo{
     private BufferedImage sprite;
 
     public PedraGrande() {
-        super(1280, 548, 19, 10, 6);
+        super(1280, 548, 19, 10, 5, 14,8);
         try {
-            sprite = ImageIO.read(getClass().getResource("/resource/objects/Sliced/pedra_grande.png"));
+            sprite = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/objects/Sliced/pedra_grande.png")));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Erro ao carregar Pedra Grande" + e);
         }
     }
 

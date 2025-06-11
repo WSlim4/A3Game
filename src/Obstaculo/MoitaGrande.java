@@ -5,16 +5,17 @@ import java.awt.*;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class MoitaGrande extends Obstaculo {
     private BufferedImage sprite;
 
     public MoitaGrande() {
-        super(1280, 548, 39, 12, 3);
+        super(1280, 548, 34, 12, 3, 33, 8);
         try {
-            sprite = ImageIO.read(getClass().getResource("/resource/objects/Sliced/moita_grande.png"));
+            sprite = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/objects/Sliced/moita_grande.png")));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Erro ao carregar Moita Grande" + e);;
         }
     }
 

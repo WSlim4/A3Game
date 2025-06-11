@@ -10,12 +10,11 @@ public class Pedra extends Obstaculo{
     private BufferedImage sprite;
 
     public Pedra() {
-        super(1280, 548, 10, 7, 5);
+        super(1280, 548, 10, 7, 5, 9, 4);
         try {
             sprite = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/objects/Sliced/pedra.png")));
         } catch (IOException e) {
-            e.fillInStackTrace();
-            throw new RuntimeException();
+            System.out.println("Erro ao carregar Pedra" + e);
         }
     }
 
