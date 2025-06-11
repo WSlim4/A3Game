@@ -2,22 +2,22 @@ package Update;
 
 import Player.Player;
 import Obstaculo.*;
+import Ponto.Pontos;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
+import java.util.Timer;
+import javax.sound.sampled.*;
 
 
 public class Update {
-    private Player player;
-    private Obstaculo obstaculo;
+    private final Player player;
+    private final Obstaculo obstaculo;
+    private final Pontos pontos;
 
-    private Random random = new Random(); // Variável para sorteio de Obstáculos
-    private List<Obstaculo> obstaculos = new ArrayList<>();
+    private final Random random = new Random(); // Variável para sorteio de Obstáculos
+    private final List<Obstaculo> obstaculos = new ArrayList<>();
 
     private double chanceObstaculo = 5;
     private double tempoAtual = 0;
@@ -27,27 +27,65 @@ public class Update {
 
     private boolean colidiu = false;
 
-    private int velocidadeY;
+    private double velocidadeY;
     private int posY = 500;
     private int alturaChao = 500;
+    private Timer delay = new Timer();
     private Timer planar;
+    private Clip clip;
+
+    private AudioInputStream soundHit;
+    private AudioInputStream soundQueda;
 
     public void update() {
         if (!colidiu){
             for (Obstaculo o : obstaculos) {
                 if (player.getHitbox().intersects(o.getHitbox()) || player.getHitbox().intersects(obstaculo.getHitbox())) {
-                    System.out.println("Colidiu!");
-                    player.gameOver(true);
-                    colidiu = true;
+                    // Instruções executadas exatamente no momento da morte
+                    try {
+                        System.out.println("Colidiu!");
+                        player.gameOver(true);
+                        pontos.setGameOver(false);
+                        clip.open(soundHit);
+                        clip.start();
+                        colidiu = true;
+                    } catch (Exception e){
+                        System.out.println("Erro no momento de colisão do GameOver: " + e);
+                    }
+
+
+                    delay.schedule(new TimerTask() {
+                        // Instruções executadas com delay de dois segundos após a morte
+                        @Override
+                        public void run() {
+                            try {
+                                player.setAnimacao("death");
+                                clip.stop(); // Para o som anterior
+                                clip.close(); // Fecha o som anterior
+                                clip.open(soundQueda); // Abre o novo som de queda
+                                clip.start(); // Inicia o som
+                            } catch (Exception e){
+                                System.out.println("Erro após a colisão do GameOver: " + e);
+                            }
+                        }
+                    }, 2000);
+                    delay.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            // Instruções executadas com delay de 3 segundos após a morte
+
+                            System.out.println("GameOver finalizado");
+                        }
+                    }, 3500);
                 }
             }
         }
 
         long agora = System.currentTimeMillis();
-        if (agora - ultimoFrame >= 100){
+        if (agora - ultimoFrame >= 100 && !colidiu){
             if (tempoAtual >= chanceObstaculo){
-                if(chanceObstaculo >= 1.2){
-                    chanceObstaculo -= 0.4;
+                if(chanceObstaculo >= 1.5){
+                    chanceObstaculo -= 0.3;
                 }
                 tempoAtual = 0;
                 sortearObstaculo();
@@ -63,7 +101,7 @@ public class Update {
             player.setPosY(posY);
 
 
-            if (player.getPosY() >= alturaChao){
+            if (player.getPosY() >= alturaChao && !player.getIsGameOver()){
                 player.setPosY(alturaChao);
                 player.setNoChao(true);
                 velocidadeY = player.getFORCA_PULO();
@@ -74,13 +112,22 @@ public class Update {
     }
 
 
-    public Update(Player player, Obstaculo obstaculo){
+    public Update(Player player, Obstaculo obstaculo, Pontos pontos){
         this.player = player;
         this.obstaculo = obstaculo;
+        this.pontos = pontos;
+
+        try {
+            soundHit = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getResourceAsStream("/resource/audio/effects/hit.wav")));
+            soundQueda = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getResourceAsStream("/resource/audio/effects/Queda.wav")));
+            clip = AudioSystem.getClip();
+        } catch (Exception e){
+            System.out.println("Erro ao executar audio hit: " + e);
+        }
     }
 
     public void sortearObstaculo() {
-        int tipo = random.nextInt(0,5);
+        int tipo = random.nextInt(0,4);
 
 
         Obstaculo o = null;
@@ -101,11 +148,6 @@ public class Update {
             case 3:
                 o = new PedraGrande();
                 System.out.println("Obstáculo lançado: Pedra Grande");
-                break;
-            case 4:
-                int altura = random.nextInt(0,4);
-                o = new Ave(altura);
-                System.out.println("Obstáculo lançado: Pterossauro na altura " + altura);
                 break;
         }
 
