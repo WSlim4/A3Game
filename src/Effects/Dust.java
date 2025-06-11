@@ -11,8 +11,8 @@ import java.util.Objects;
 public class Dust {
     public int posInicio = 100; // Posição que será retornado depois de cada ciclo
     public int x = 100; // Posição Horizontal do Dust
-    private int y = 520; // Posição vertical do Dust
-    private int largura = 16; // Largura px do Dust
+    private final int Y = 520; // Posição vertical do Dust
+    private final int LARGURA = 16; // Largura px do Dust
     private int altura = 16; // altura px do Dust
     private final int upscaling = 2; // Vezes de aumento do Dust na tela
     private double velocidadeX = -3; // Velocidade em que o efeito será empurrado pra trás
@@ -31,7 +31,7 @@ public class Dust {
         this.player = player;
         try {
             sheet = ImageIO.read(getClass().getResourceAsStream("/resource/sprite/dust.png"));
-            frame = sheet.getSubimage((frameAtual * largura), 0, largura, altura); // Recorta a sprite sheet
+            frame = sheet.getSubimage((frameAtual * LARGURA), 0, LARGURA, altura); // Recorta a sprite sheet
             System.out.println("Dust carregado :D");
         } catch (IOException | NullPointerException e) {
             System.err.println("Dust não carregado :( " + e.getMessage());
@@ -43,7 +43,7 @@ public class Dust {
         x += velocidadeX;
 
         if(Objects.equals(player.getAnimacao(), "run")) {
-            g.drawImage(frame, x, y, (largura * upscaling), (altura * upscaling), null);
+            g.drawImage(frame, x, Y, (LARGURA * upscaling), (altura * upscaling), null);
         }
     }
 
@@ -57,13 +57,13 @@ public class Dust {
         if (frameAtual == 0) {
             // Caso ele reinicie o loop, o frame é definido para o primeiro
             this.frameAtual = 0;
-            frame = sheet.getSubimage(0, 0, largura, altura);
+            frame = sheet.getSubimage(0, 0, LARGURA, altura);
             ultimoFrame = agora;
         }
 
         if (agora - ultimoFrame >= intervaloFrame) {
             this.frameAtual = frameAtual;
-            frame = sheet.getSubimage((frameAtual * largura), 0, largura, altura);
+            frame = sheet.getSubimage((frameAtual * LARGURA), 0, LARGURA, altura);
             ultimoFrame = agora;
         }
 

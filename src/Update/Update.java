@@ -29,9 +29,7 @@ public class Update {
 
     private double velocidadeY;
     private int posY = 500;
-    private int alturaChao = 500;
-    private Timer delay = new Timer();
-    private Timer planar;
+    private final Timer DELAY = new Timer();
     private Clip clip;
 
     private AudioInputStream soundHit;
@@ -40,7 +38,7 @@ public class Update {
     public void update() {
         if (!colidiu){
             for (Obstaculo o : obstaculos) {
-                if (player.getHitbox().intersects(o.getHitbox()) || player.getHitbox().intersects(obstaculo.getHitbox())) {
+                if (player.getHITBOX().intersects(o.getHitbox()) || player.getHITBOX().intersects(obstaculo.getHitbox())) {
                     // Instruções executadas exatamente no momento da morte
                     try {
                         System.out.println("Colidiu!");
@@ -54,12 +52,12 @@ public class Update {
                     }
 
 
-                    delay.schedule(new TimerTask() {
+                    DELAY.schedule(new TimerTask() {
                         // Instruções executadas com delay de dois segundos após a morte
                         @Override
                         public void run() {
                             try {
-                                player.setAnimacao("death");
+                                player.setAnimacao("hit");
                                 clip.stop(); // Para o som anterior
                                 clip.close(); // Fecha o som anterior
                                 clip.open(soundQueda); // Abre o novo som de queda
@@ -69,7 +67,7 @@ public class Update {
                             }
                         }
                     }, 2000);
-                    delay.schedule(new TimerTask() {
+                    DELAY.schedule(new TimerTask() {
                         @Override
                         public void run() {
                             // Instruções executadas com delay de 3 segundos após a morte
@@ -101,8 +99,9 @@ public class Update {
             player.setPosY(posY);
 
 
-            if (player.getPosY() >= alturaChao && !player.getIsGameOver()){
-                player.setPosY(alturaChao);
+            int ALTURA_CHAO = 500;
+            if (player.getPosY() >= ALTURA_CHAO && !player.getIsGameOver()){
+                player.setPosY(ALTURA_CHAO);
                 player.setNoChao(true);
                 velocidadeY = player.getFORCA_PULO();
                 player.setAnimacao("run");

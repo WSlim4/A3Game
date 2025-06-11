@@ -10,7 +10,7 @@ public class FontLoader {
             return Font.createFont(Font.TRUETYPE_FONT, new File(path))
                     .deriveFont(size);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             return new Font("SansSerif", Font.PLAIN, (int)size);
         }
     }

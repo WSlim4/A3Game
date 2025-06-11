@@ -15,7 +15,7 @@ public class MoitaGrande extends Obstaculo {
         try {
             sprite = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/objects/Sliced/moita_grande.png")));
         } catch (IOException e) {
-            System.out.println("Erro ao carregar Moita Grande" + e);;
+            System.out.println("Erro ao carregar Moita Grande" + e);
         }
     }
 

@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.ArrayList;
 
 
 public class Pontos {
@@ -17,34 +16,35 @@ public class Pontos {
     private long ms = 0;
     private long pontos = 0;
     Font fonte = FontLoader.loadFont("src/resource/font/font.otf", 30f);
-    // teste é para ser substituido por uma boolean que indica Game Over ou não
-    private boolean teste = true;
-    private Timer tempo;
-    private PassagemDeTempo passagemDeTempo = new PassagemDeTempo();
+    private boolean gameOver = true;
+    private final PassagemDeTempo PASSAGEM_TEMPO = new PassagemDeTempo();
     private int movimento = 0;
     double velocidade = 0;
     private int cicloDia;
     private int ciclo = 0;
     private int lua;
     private int luaVelocidade = 0;
-    private Obstaculo obstaculo;
+    private final Obstaculo OBSTACULO;
 
     public Pontos(Obstaculo obstaculo){
-        this.obstaculo = obstaculo;
+        this.OBSTACULO = obstaculo;
         System.out.println("Pontos contrutor");
     }
 
     public void Tempo() {
-        tempo = new Timer(1000, new ActionListener() {
+        // new ActionListener() não pode ser trocado por lambda, pois outros avisos aparecem ou erros.
+        // nesta posição é para ser "se game over for falso"
+        // valor temporário de pontos, após a finalização do jogo podemos mudar isso
+        Timer tempo = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // nesta posição é para ser "se game over for falso"
-                if (teste) {
+                if (gameOver) {
                     ms++;
                     velocidade += 1;
 
 
-                    if (velocidade == 8){
+                    if (velocidade == 8) {
                         movimento -= 1;
                         velocidade = 0;
                     } else if (movimento == -1280) {
@@ -52,20 +52,20 @@ public class Pontos {
                         velocidade = 0;
                     }
 
-                    obstaculo.move();
+                    OBSTACULO.move();
                     for (Obstaculo o : listaObstaculos) {
                         o.move();
                     }
 
                     ciclo++;
-                    cicloDia = ciclo/700;
-                    if (cicloDia == 2001){
+                    cicloDia = ciclo / 700;
+                    if (cicloDia == 2001) {
                         ciclo = 0;
                         cicloDia = 0;
                     }
 
                     luaVelocidade += 1;
-                    if (luaVelocidade == 240){
+                    if (luaVelocidade == 240) {
                         lua -= 1;
                         luaVelocidade = 0;
                     } else if (lua == -2560) {
@@ -74,7 +74,7 @@ public class Pontos {
                     }
 
                     // valor temporário de pontos, após a finalização do jogo podemos mudar isso
-                    pontos = ms/700;
+                    pontos = ms / 700;
 
                 }
             }
@@ -84,7 +84,7 @@ public class Pontos {
 
 
     public void Renderizar(Graphics g){
-        passagemDeTempo.Renderizar(g, movimento, cicloDia, lua);
+        PASSAGEM_TEMPO.Renderizar(g, movimento, cicloDia, lua);
         g.setColor(Color.white);
         g.setFont(fonte);
         g.drawString(" " + pontos, 1100, 50);
@@ -95,7 +95,7 @@ public class Pontos {
     }
 
     public void setGameOver(boolean bool){
-        teste = bool;
+        gameOver = bool;
     }
 
     public void setObstaculos(List<Obstaculo> obstaculos){
