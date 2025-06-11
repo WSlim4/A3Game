@@ -16,14 +16,15 @@ public class Player extends JPanel {
     private final int UPSCALING = 3; // Vezes de aumento do personagem na tela
     private int posX = 100; // Posição horizontal inicial
     private int posY = 500; // Posição vertical inicial
-    private Rectangle hitbox = new Rectangle(posX+20, posY, largura*UPSCALING/2, altura*UPSCALING); // Hitbox do jogador
+    private Rectangle hitbox = new Rectangle(posX+30, posY+(altura*UPSCALING/2), largura*UPSCALING/3, altura*UPSCALING-15); // Hitbox do jogador
+    private final boolean viewHitbox = false; // Deixe em true para ver a hitbox
     private boolean noChao = true; // Detecta se o personagem está no chão atualmente
     private boolean isGameOver = false;
 
-    private final int GRAVIDADE = 1;
+    private final double GRAVIDADE = 0.5;
     private final int FORCA_PULO = -15;
 
-    private double intervaloFrame = 1200; // Intervalo para diminuir o tempo de troca do frames
+    private double intervaloFrame = 500; // Intervalo para diminuir o tempo de troca do frames
     private double aceleracao = 100;
 
     private int frameAtual = 1; // Define o índice do frame da planilha;
@@ -35,9 +36,6 @@ public class Player extends JPanel {
     // Variáveis para planilha de sprite e seleção de frame
     private BufferedImage sheet;
     private Image frame;
-
-    // Instancias importadas
-    private Pontos pontos;
 
     // Construtor
     public Player(Pontos pontos) {
@@ -52,15 +50,16 @@ public class Player extends JPanel {
         }
 
         // Importar instancias
-        this.pontos = pontos;
     }
     // Desenha na tela, carregado no GamePainel.java
     public void Renderizar(Graphics g) {
         g.drawImage(frame, posX, posY, largura * UPSCALING, altura * UPSCALING, null);
 
         // Descomente essa parte para ver a hitbox do jogador
-        // g.setColor(Color.RED);
-        // g.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
+        if (viewHitbox){
+            g.setColor(Color.RED);
+            g.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
+        }
     }
 
     // Troca os frames da planilhad e sprites por um tempo definido pela variável
@@ -113,10 +112,11 @@ public class Player extends JPanel {
     // Executa os metodos de Game Over
     public void gameOver(boolean bool){
         isGameOver = bool;
-        setAnimacao("death");
+        setAnimacao("hit");
         System.out.println("GameOver");
-        // pontos.setGameOver(false);
     }
+
+    public boolean getIsGameOver(){ return isGameOver;}
 
     // Faz com que a velocidade da animação seja gradual
     public void acelerarPlayer(){
@@ -124,7 +124,7 @@ public class Player extends JPanel {
         if (intervaloFrame > 120){
             if (agora - ultimoFrame >= 100){
                 intervaloFrame -= aceleracao;
-                aceleracao -= 4;
+                aceleracao -= 2;
             }
         }
     }
@@ -137,7 +137,7 @@ public class Player extends JPanel {
         this.noChao = noChao;
     }
 
-    public int getGRAVIDADE(){
+    public double getGRAVIDADE(){
         return GRAVIDADE;
     }
 
@@ -150,7 +150,10 @@ public class Player extends JPanel {
     }
 
     public void setPosY(int posY){
-        this.posY = posY;
+        if (!isGameOver){
+            this.posY = posY;
+            this.hitbox.setLocation(hitbox.x, posY+altura/2);
+        }
     }
 }
 
