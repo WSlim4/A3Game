@@ -40,13 +40,13 @@ public class Update {
             for (Obstaculo o : obstaculos) {
                 if (player.getHITBOX().intersects(o.getHitbox()) || player.getHITBOX().intersects(obstaculo.getHitbox())) {
                     // Instruções executadas exatamente no momento da morte
+                    colidiu = true;
+                    System.out.println("Colidiu!!");
+                    player.gameOver(true);
+                    pontos.setGameOver(false);
                     try {
-                        System.out.println("Colidiu!");
-                        player.gameOver(true);
-                        pontos.setGameOver(false);
                         clip.open(soundHit);
                         clip.start();
-                        colidiu = true;
                     } catch (Exception e){
                         System.out.println("Erro no momento de colisão do GameOver: " + e);
                     }
@@ -57,7 +57,7 @@ public class Update {
                         @Override
                         public void run() {
                             try {
-                                player.setAnimacao("hit");
+                                player.setAnimacao("death");
                                 clip.stop(); // Para o som anterior
                                 clip.close(); // Fecha o som anterior
                                 clip.open(soundQueda); // Abre o novo som de queda
@@ -89,7 +89,6 @@ public class Update {
                 sortearObstaculo();
             }
             tempoAtual += 0.1;
-            //System.out.println(tempoAtual);
             ultimoFrame = agora;
         }
 
@@ -107,9 +106,7 @@ public class Update {
                 player.setAnimacao("run");
             }
         }
-
     }
-
 
     public Update(Player player, Obstaculo obstaculo, Pontos pontos){
         this.player = player;

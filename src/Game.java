@@ -5,7 +5,11 @@ import Update.Update;
 import Render.Render;
 import ProcessInput.ProcessInput;
 import Player.Player;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.util.Objects;
 
 public class Game {
     private final Update UpdateState;
@@ -17,6 +21,9 @@ public class Game {
     private final GamePanel gamePanel;
     private final Obstaculo obstaculo;
     private final Pontos pontos;
+    private JFrame janela;
+
+    public boolean started = false;
 
 
     {
@@ -38,28 +45,43 @@ public class Game {
 
 
 
-        // Criação da Janela do Jogo
-        JFrame janela = new JFrame();
+        this.Renderer = new Render();
+
+        System.out.println("Controle de Sprite: \n- 'D' - Correr\n- 'W' - Morte\n Nada - Ocioso");
+    }
+
+    // Criação da Janela do Jogo
+    public void start() {
+        janela = new JFrame();
         janela.setTitle("Dino Run");
+
+        try {
+            BufferedImage icon = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/resource/sprite/p1_hit.png")));
+            janela.setIconImage(icon);
+        } catch (Exception e){
+            System.out.println("Ícone não carregado.");
+        }
+
+
         janela.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         janela.setContentPane(gamePanel);
         janela.pack();
         janela.setLocationRelativeTo(null);
         janela.setResizable(false);
         janela.setVisible(true);
+        gamePanel.requestFocusInWindow();
 
-
-
-        this.Renderer = new Render();
-
-        System.out.println("Controle de Sprite: \n- 'D' - Correr\n- 'W' - Morte\n Nada - Ocioso");
     }
 
     public void run() {
         while (true) {
             this.UserInput.read();
             this.UpdateState.update();
-            pontos.Tempo();
+
+            if (started) {
+                pontos.Tempo();
+            }
+
             this.Renderer.render(this.player, this.dust);
             gamePanel.repaint();
             try { Thread.sleep(16); } catch (Exception e) {}
