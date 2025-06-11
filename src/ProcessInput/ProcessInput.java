@@ -29,14 +29,11 @@ public class ProcessInput implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int tecla = e.getKeyCode();
         // Tecla "ESPAÇO"
-        if (tecla == KeyEvent.VK_SPACE && player.getNoChao()){
+        if (tecla == KeyEvent.VK_SPACE && player.getNoChao() && !player.getIsGameOver()){
             try {
                 player.setAnimacao("idle");
-                if (tecla == KeyEvent.VK_SPACE && player.getNoChao()) {
-                    player.setAnimacao("idle");
-                    playJumpSound();
-                    player.setNoChao(false);
-                }
+                playJumpSound();
+                player.setNoChao(false);
             }catch (NullPointerException n){
                 System.out.println("Problema inesperado ao processar pulo: " + n);
             }
