@@ -5,6 +5,9 @@ import Obstaculo.*;
 import Ponto.Pontos;
 
 import java.awt.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.List;
 import java.util.Timer;
@@ -41,6 +44,7 @@ public class Update {
             for (Obstaculo o : obstaculos) {
                 if (player.getHITBOX().intersects(o.getHitbox()) || player.getHITBOX().intersects(obstaculo.getHitbox())) {
                     // Instruções executadas exatamente no momento da morte
+                    pontos.createFile();
                     colidiu = true;
                     System.out.println("Colidiu!!");
                     player.gameOver(true);

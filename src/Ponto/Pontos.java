@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 
@@ -15,7 +18,7 @@ public class Pontos {
     private List<Obstaculo> listaObstaculos;
     private long ms = 0;
     private long pontos = 0;
-    Font fonte = FontLoader.loadFont("src/resource/font/font.otf", 30f);
+    public Font fonte = FontLoader.loadFont("src/resource/font/font.otf", 30f);
     private boolean gameOver = true;
     private final PassagemDeTempo PASSAGEM_TEMPO = new PassagemDeTempo();
     private int movimento = 0;
@@ -100,6 +103,75 @@ public class Pontos {
 
     public void setObstaculos(List<Obstaculo> obstaculos){
         this.listaObstaculos = obstaculos;
+    }
+
+    public long getPontos(){return pontos;}
+
+    public void createFile(){
+        Path path = Path.of("src/Ponto/teste.txt");
+        try {
+            if(Files.notExists(path)){
+                Files.createFile(path);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void saveScore() {
+        Path path = Path.of("src/Ponto/teste.txt");
+
+        List<String> linhas = null;
+        try {
+            linhas = Files.readAllLines(path);
+
+            int linhasNumero = 0;
+
+            for (String texto: linhas){
+                linhasNumero = Integer.parseInt(texto);
+            }
+
+            if(pontos>linhasNumero){
+                String texto = Long.toString(pontos);
+                Files.writeString(path,texto);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public boolean readScore(){
+        Path path = Path.of("src/Ponto/teste.txt");
+
+        List<String> linhas = null;
+        try {
+            linhas = Files.readAllLines(path);
+
+            int linhasNumero = 0;
+
+            for (String texto: linhas){
+                linhasNumero = Integer.parseInt(texto);
+            }
+
+            if(pontos>linhasNumero){
+                String texto = Long.toString(pontos);
+                Files.writeString(path,texto);
+                return true;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
+    public long lerRecorde(){
+        String salvamento;
+        Path path = Path.of("src/Ponto/teste.txt");
+        try {
+            salvamento = Files.readString(path);
+            return Long.parseLong(salvamento.trim());
+        } catch(Exception e) {
+            System.out.println("Falha ao ler save: " + e);
+            return 0;
+        }
     }
 
 }

@@ -33,7 +33,7 @@ public class Game {
         this.dust = new Dust(player);
         this.UpdateState = new Update(player, obstaculo, pontos, () -> {
             janela.dispose();
-            SwingUtilities.invokeLater(() -> new GameOver().setVisible(true));
+            SwingUtilities.invokeLater(() -> new GameOver(pontos).setVisible(true));
         });
         this.UserInput = new ProcessInput(player);
 

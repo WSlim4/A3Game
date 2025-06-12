@@ -2,12 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 import Menu.*;
+import Ponto.Pontos;
 
 public class GameOver extends JFrame {
-
     private BotaoImagem btnReiniciar;
 
-    public GameOver() {
+    public GameOver(Pontos pontos) {
+
         setTitle("Game Over");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1280, 720);
@@ -76,5 +77,39 @@ public class GameOver extends JFrame {
                 new Thread(jogo::run).start(); // Inicia o loop do jogo
             });
         });
+
+        int x = 510;
+        int yRecord = 350;
+        int yScore = 400;
+
+        long recorde = pontos.lerRecorde();
+        long atual = pontos.getPontos();
+
+        if (atual > recorde) {
+            String record = "Novo Recorde!";
+            System.out.println("Recorde!");
+
+            JLabel labelRecord = new JLabel(record);
+            labelRecord.setFont(pontos.fonte);
+            labelRecord.setForeground(Color.PINK);
+            labelRecord.setBounds(510, yRecord, 600, 50);
+            layeredPane.add(labelRecord, Integer.valueOf(2));
+        } else {
+            String record = "Record: " + recorde;
+
+            JLabel labelRecord = new JLabel(record);
+            labelRecord.setFont(pontos.fonte);
+            labelRecord.setForeground(Color.WHITE);
+            labelRecord.setBounds(520, yRecord, 600, 50);
+            layeredPane.add(labelRecord, Integer.valueOf(2));
+        }
+
+        String score = "Score: " + atual;
+        JLabel labelScore = new JLabel(score);
+        labelScore.setFont(pontos.fonte);
+        labelScore.setForeground(Color.WHITE);
+        labelScore.setBounds(535, yScore, 600, 50);
+        layeredPane.add(labelScore, Integer.valueOf(2));
+        pontos.saveScore();
     }
 }
