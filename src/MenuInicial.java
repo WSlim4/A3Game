@@ -2,10 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 import Menu.*;
+import Effects.Music;
 
 public class MenuInicial extends JFrame {
 
     private BotaoImagem btnIniciar;
+    private Music music = new Music();
 
     public MenuInicial() {
         setTitle("Menu");

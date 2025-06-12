@@ -1,14 +1,17 @@
 import Effects.Dust;
+import Effects.Music;
 import Obstaculo.Obstaculo;
 import Ponto.Pontos;
 import Update.Update;
 import Render.Render;
 import ProcessInput.ProcessInput;
 import Player.Player;
+import javax.sound.sampled.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Objects;
 
 public class Game {
@@ -22,9 +25,11 @@ public class Game {
     private final Obstaculo obstaculo;
     private final Pontos pontos;
     private JFrame janela;
+    private Music music = new Music();
+
+    private Clip clip;
 
     public boolean started = false;
-
 
     {
         this.obstaculo = new Obstaculo();
@@ -34,7 +39,7 @@ public class Game {
         this.UpdateState = new Update(player, obstaculo, pontos, () -> {
             janela.dispose();
             SwingUtilities.invokeLater(() -> new GameOver(pontos).setVisible(true));
-        });
+        }, music);
         this.UserInput = new ProcessInput(player);
 
         this.pontos.setObstaculos(UpdateState.getObstaculos());
@@ -53,10 +58,14 @@ public class Game {
         System.out.println("Controle de Sprite: \n- 'D' - Correr\n- 'W' - Morte\n Nada - Ocioso");
     }
 
-    // Criação da Janela do Jogo
+
+
+// Criação da Janela do Jogo
     public void start() {
         janela = new JFrame();
         janela.setTitle("Dino Run");
+
+
 
         try {
             BufferedImage icon = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/resource/sprite/p1_hit.png")));
@@ -74,9 +83,18 @@ public class Game {
         janela.setVisible(true);
         gamePanel.requestFocusInWindow();
 
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(""));
+        } catch (Exception e){
+
+        }
+
     }
 
     public void run() {
+        if (started){
+            music.play("src/resource/audio/music/tilha1.wav");
+        }
         while (true) {
             this.UserInput.read();
             this.UpdateState.update();

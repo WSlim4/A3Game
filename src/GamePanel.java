@@ -26,6 +26,7 @@ public class GamePanel extends JPanel {
         setFocusable(true);
     }
 
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

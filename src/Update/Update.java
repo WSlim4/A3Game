@@ -1,13 +1,11 @@
 package Update;
 
+import Effects.Music;
 import Player.Player;
 import Obstaculo.*;
 import Ponto.Pontos;
 
 import java.awt.*;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.List;
 import java.util.Timer;
@@ -19,6 +17,7 @@ public class Update {
     private final Obstaculo obstaculo;
     private final Pontos pontos;
     private final Runnable onGameOver;
+    private Music music;
 
     private final Random random = new Random(); // Variável para sorteio de Obstáculos
     private final List<Obstaculo> obstaculos = new ArrayList<>();
@@ -45,6 +44,7 @@ public class Update {
                 if (player.getHITBOX().intersects(o.getHitbox()) || player.getHITBOX().intersects(obstaculo.getHitbox())) {
                     // Instruções executadas exatamente no momento da morte
                     pontos.createFile();
+                    music.stop();
                     colidiu = true;
                     System.out.println("Colidiu!!");
                     player.gameOver(true);
@@ -116,11 +116,12 @@ public class Update {
         }
     }
 
-    public Update(Player player, Obstaculo obstaculo, Pontos pontos, Runnable onGameOver) {
+    public Update(Player player, Obstaculo obstaculo, Pontos pontos, Runnable onGameOver, Music music) {
         this.player = player;
         this.obstaculo = obstaculo;
         this.pontos = pontos;
         this.onGameOver = onGameOver;
+        this.music = music;
         // ... rest of constructor ...
         try {
             soundHit = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getResourceAsStream("/resource/audio/effects/hit.wav")));
