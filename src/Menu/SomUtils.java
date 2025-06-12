@@ -49,4 +49,19 @@ public class SomUtils {
             musicaFundo.close();
         }
     }
+    public static void tocarMusicaUmaVez(String caminhoMusica) {
+        try {
+            URL url = SomUtils.class.getResource(caminhoMusica);
+            if (url == null) {
+                System.err.println("Música não encontrada: " + caminhoMusica);
+                return;
+            }
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+            musicaFundo = AudioSystem.getClip();
+            musicaFundo.open(audioIn);
+            musicaFundo.start(); // Toca só uma vez, sem loop
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
 }

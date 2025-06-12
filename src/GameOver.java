@@ -43,7 +43,7 @@ public class GameOver extends JFrame {
         } else {
             System.err.println("Imagem 'menu' não encontrada!");
         }
-        SomUtils.tocarMusicaMenu("/resource/audio/menu/musica_menu.wav");
+        SomUtils.tocarMusicaUmaVez("/resource/audio/menu/gameoversong.wav");
 
         // Criação do botão reiniciar com imagem
         btnReiniciar = new BotaoImagem("/resource/gameover/btn_reiniciar.png", 325, 230);
