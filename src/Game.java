@@ -1,11 +1,11 @@
-import Effects.Dust;
-import Effects.Music;
-import Obstaculo.Obstaculo;
-import Ponto.Pontos;
-import Update.Update;
-import Render.Render;
-import ProcessInput.ProcessInput;
-import Player.Player;
+import effects.Dust;
+import effects.Music;
+import obstaculo.Obstaculo;
+import ponto.Pontos;
+import update.Update;
+import render.Render;
+import process_input.ProcessInput;
+import player.Player;
 import javax.sound.sampled.*;
 
 import javax.imageio.ImageIO;
@@ -15,15 +15,15 @@ import java.io.File;
 import java.util.Objects;
 
 public class Game {
-    private final Update UpdateState;
-    private final Render Renderer;
-    private final ProcessInput UserInput;
+    private final Update UPDATE_STATE;
+    private final Render RENDERER;
+    private final ProcessInput USER_INPUT;
 
-    private final Player player;
-    private final Dust dust;
-    private final GamePanel gamePanel;
-    private final Obstaculo obstaculo;
-    private final Pontos pontos;
+    private final Player PLAYER;
+    private final Dust DUST;
+    private final GamePanel GAME_PANEL;
+    private final Obstaculo OBSTACULO;
+    private final Pontos PONTOS;
     private JFrame janela;
     private Music music = new Music();
 
@@ -32,28 +32,28 @@ public class Game {
     public boolean started = false;
 
     {
-        this.obstaculo = new Obstaculo();
-        this.pontos = new Pontos(obstaculo);
-        this.player = new Player(pontos);
-        this.dust = new Dust(player);
-        this.UpdateState = new Update(player, obstaculo, pontos, () -> {
+        this.OBSTACULO = new Obstaculo();
+        this.PONTOS = new Pontos(OBSTACULO);
+        this.PLAYER = new Player(PONTOS);
+        this.DUST = new Dust(PLAYER);
+        this.UPDATE_STATE = new Update(PLAYER, OBSTACULO, PONTOS, () -> {
             janela.dispose();
-            SwingUtilities.invokeLater(() -> new GameOver(pontos).setVisible(true));
+            SwingUtilities.invokeLater(() -> new GameOver(PONTOS).setVisible(true));
         }, music);
-        this.UserInput = new ProcessInput(player);
+        this.USER_INPUT = new ProcessInput(PLAYER);
 
-        this.pontos.setObstaculos(UpdateState.getObstaculos());
+        this.PONTOS.setObstaculos(UPDATE_STATE.getObstaculos());
 
 
         // Cria painel de jogo e passa os objetos
-        this.gamePanel = new GamePanel(player, dust, pontos, obstaculo, UpdateState);
-        gamePanel.addKeyListener(this.UserInput);
-        gamePanel.setFocusable(true);
-        gamePanel.requestFocusInWindow();
+        this.GAME_PANEL = new GamePanel(PLAYER, DUST, PONTOS, OBSTACULO, UPDATE_STATE);
+        GAME_PANEL.addKeyListener(this.USER_INPUT);
+        GAME_PANEL.setFocusable(true);
+        GAME_PANEL.requestFocusInWindow();
 
 
 
-        this.Renderer = new Render();
+        this.RENDERER = new Render();
 
         System.out.println("Controle de Sprite: \n- 'D' - Correr\n- 'W' - Morte\n Nada - Ocioso");
     }
@@ -76,12 +76,12 @@ public class Game {
 
 
         janela.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        janela.setContentPane(gamePanel);
+        janela.setContentPane(GAME_PANEL);
         janela.pack();
         janela.setLocationRelativeTo(null);
         janela.setResizable(false);
         janela.setVisible(true);
-        gamePanel.requestFocusInWindow();
+        GAME_PANEL.requestFocusInWindow();
 
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(""));
@@ -96,15 +96,15 @@ public class Game {
             music.play("src/resource/audio/music/tilha1.wav");
         }
         while (true) {
-            this.UserInput.read();
-            this.UpdateState.update();
+            this.USER_INPUT.read();
+            this.UPDATE_STATE.update();
 
             if (started) {
-                pontos.Tempo();
+                PONTOS.Tempo();
             }
 
-            this.Renderer.render(this.player, this.dust);
-            gamePanel.repaint();
+            this.RENDERER.render(this.PLAYER, this.DUST);
+            GAME_PANEL.repaint();
             try { Thread.sleep(16); } catch (Exception e) {}
         }
     }

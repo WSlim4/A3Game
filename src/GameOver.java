@@ -1,11 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
-import Menu.*;
-import Ponto.Pontos;
+import menu.*;
+import ponto.Pontos;
 
 public class GameOver extends JFrame {
-    private BotaoImagem btnReiniciar;
+    private final BotaoImagem BTN_REINICIAR;
 
     public GameOver(Pontos pontos) {
 
@@ -47,12 +47,12 @@ public class GameOver extends JFrame {
         SomUtils.tocarMusicaUmaVez("/resource/audio/menu/gameoversong.wav");
 
         // Criação do botão reiniciar com imagem
-        btnReiniciar = new BotaoImagem("/resource/gameover/btn_reiniciar.png", 325, 230);
+        BTN_REINICIAR = new BotaoImagem("/resource/gameover/btn_reiniciar.png", 325, 230);
 
         // Adiciona o botão Iniciar ao painel com espaçamento
         gbc.gridy = 1;
         gbc.insets = new Insets(10, 20, 35, 0);
-        botoesPanel.add(btnReiniciar, gbc);
+        botoesPanel.add(BTN_REINICIAR, gbc);
 
         // Adiciona fundo e painel de botões ao layeredPane em camadas diferentes
         layeredPane.add(fundo, Integer.valueOf(0));     // Fundo atrás
@@ -65,7 +65,7 @@ public class GameOver extends JFrame {
         setVisible(true);
 
         // Ação do botão Iniciar
-        btnReiniciar.addActionListener(e -> {
+        BTN_REINICIAR.addActionListener(e -> {
             SomUtils.tocarSom(Recursos.SOM_CLIQUE);
             SomUtils.pararMusicaFundo();
             this.dispose(); // Fecha o menu
