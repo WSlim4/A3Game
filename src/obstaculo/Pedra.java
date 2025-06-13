@@ -11,6 +11,8 @@ public class Pedra extends Obstaculo{
 
     public Pedra() {
         super(1280, 548, 10, 7, 5, 9, 4);
+
+        // Carrega o sprite
         try {
             sprite = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/objects/pedra.png")));
         } catch (IOException e) {

@@ -11,7 +11,9 @@ public class Moita extends Obstaculo {
     private BufferedImage sprite;
 
     public Moita() {
-        super(1280, 548, 27, 14, 3, 24, 10);
+        super(1280, 548, 27, 14, 3, 24, 10); // Chama construtor do pai
+
+        // Carrega o sprite
         try {
             sprite = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/objects/moita.png")));
         } catch (IOException e) {

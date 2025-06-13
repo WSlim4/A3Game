@@ -11,7 +11,9 @@ public class MoitaGrande extends Obstaculo {
     private BufferedImage sprite;
 
     public MoitaGrande() {
-        super(1280, 548, 34, 12, 3, 33, 8);
+        super(1280, 548, 34, 12, 3, 33, 8); // Chama construtor do pai
+
+        // Carrega o sprite
         try {
             sprite = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/objects/moita_grande.png")));
         } catch (IOException e) {
@@ -21,7 +23,7 @@ public class MoitaGrande extends Obstaculo {
 
     @Override
     public void move() {
-        super.move();  // chama o move() do Obstaculo, que atualiza a posição do x
+        super.move();  // chama o move() do pai, que atualiza a posição do x
     }
 
     @Override

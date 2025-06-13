@@ -25,10 +25,11 @@ public class Dust {
     private long ultimoFrame = 0; // Tempo do ultimo frame, usado para manter a sincronia e velocidade da animação
     private final int intervaloFrame = 80; // Tempo em que os sprite são trocados
 
-    private Player player;
+    private Player player; // Import da instância do player
 
+    // Método construtor
     public Dust(Player player) {
-        this.player = player;
+        this.player = player; // Importa a instancia do player
         try {
             sheet = ImageIO.read(getClass().getResourceAsStream("/resource/sprite/dust.png"));
             frame = sheet.getSubimage((frameAtual * LARGURA), 0, LARGURA, altura); // Recorta a sprite sheet
@@ -40,17 +41,15 @@ public class Dust {
 
     // Desenha na tela, carregado no GamePainel.java
     public void Renderizar(Graphics g) {
-        x += velocidadeX;
+        x += velocidadeX; // Aumenta constantemente a posição X do sprite, dando efeito de indo para trás
 
+        // Renderiza apenas se player estiver com a animação "run"
         if(Objects.equals(player.getAnimacao(), "run")) {
             g.drawImage(frame, x, Y, (LARGURA * upscaling), (altura * upscaling), null);
         }
     }
 
-    public int getFrameAtual(){
-        return frameAtual;
-    }
-
+    // Define o novo frame da animação
     public void setFrameAtual(int frameAtual){
         long agora = System.currentTimeMillis();
 
@@ -61,11 +60,17 @@ public class Dust {
             ultimoFrame = agora;
         }
 
+        // Troca o frame com base no tempo definido
         if (agora - ultimoFrame >= intervaloFrame) {
             this.frameAtual = frameAtual;
             frame = sheet.getSubimage((frameAtual * LARGURA), 0, LARGURA, altura);
             ultimoFrame = agora;
         }
 
+    }
+
+    // Método get
+    public int getFrameAtual(){
+        return frameAtual;
     }
 }

@@ -85,16 +85,11 @@ public class Pontos {
         tempo.start();
     }
 
-
     public void Renderizar(Graphics g){
         PASSAGEM_TEMPO.Renderizar(g, movimento, cicloDia, lua);
         g.setColor(Color.white);
         g.setFont(fonte);
         g.drawString(" " + pontos, 1100, 50);
-    }
-
-    public double getVelocidade(){
-        return velocidade;
     }
 
     public void setGameOver(boolean bool){
@@ -138,6 +133,7 @@ public class Pontos {
             throw new RuntimeException(e);
         }
     }
+
     public boolean readScore(){
         Path path = Path.of("src/Ponto/teste.txt");
 
@@ -162,6 +158,7 @@ public class Pontos {
         return false;
     }
 
+    // Método para ler arquivo de Save
     public long lerRecorde(){
         String salvamento;
         Path path = Path.of("src/Ponto/teste.txt");
@@ -169,7 +166,7 @@ public class Pontos {
             salvamento = Files.readString(path);
             return Long.parseLong(salvamento.trim());
         } catch(Exception e) {
-            System.out.println("Falha ao ler save: " + e);
+            System.out.println("Falha ao ler save, talvez ainda não exista.");
             return 0;
         }
     }

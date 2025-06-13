@@ -15,16 +15,6 @@ public class Obstaculo {
     // Variável para a hitbox
     protected Rectangle hitbox = new Rectangle(); // Cria a hitbox do obstáculo
 
-    // Construtor com hitbox do tamanho da sprite
-    public Obstaculo(int x, int y, int width, int height, int upscaling) {
-        this.x = x;
-        this.y = (y-height*upscaling);
-        this.width = width;
-        this.height = height;
-        this.upscaling = upscaling;
-        this.hitbox = new Rectangle(x, (y-height*upscaling), width * upscaling, height * upscaling);
-    }
-
     public Obstaculo(){
 
     }
@@ -52,13 +42,14 @@ public class Obstaculo {
 
     // Renderiza na tela
     public void Renderizar(Graphics g) {
+        // Defina "verHitbox" para true para renderizar as hitbox
         if (verHitbox){
             g.setColor(Color.RED);
             g.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
         }
     }
 
-
+    // Métodos set e get
     public Rectangle getHitbox() {
         return hitbox;
     }

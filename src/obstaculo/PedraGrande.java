@@ -10,7 +10,9 @@ public class PedraGrande extends Obstaculo{
     private BufferedImage sprite;
 
     public PedraGrande() {
-        super(1280, 548, 19, 10, 5, 14,8);
+        super(1280, 548, 19, 10, 5, 14,8); // Chama construtor do pai
+
+        // Carrega o sprite
         try {
             sprite = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resource/objects/pedra_grande.png")));
         } catch (IOException e) {
