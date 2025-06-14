@@ -11,18 +11,18 @@ import java.util.Objects;
 public class Player extends JPanel {
 
     // Sprite do jogador
-    private final int LARGURA = 32; // Altura px do personagem
-    private final int ALTURA = 16; // Largura px do personagem
-    private final int UPSCALING = 3; // Vezes de aumento do personagem na tela
-    private final int POS_X = 100; // Posição horizontal inicial
+    private final int largura = 32; // Altura px do personagem
+    private final int altura = 16; // Largura px do personagem
+    private final int upscaling = 3; // Vezes de aumento do personagem na tela
+    private final int posX = 100; // Posição horizontal inicial
     private int posY = 500; // Posição vertical inicial
-    private final Rectangle HITBOX = new Rectangle(POS_X +30, posY+(ALTURA *UPSCALING/2), LARGURA *UPSCALING/3, ALTURA *UPSCALING-15); // Hitbox do jogador
+    private final Rectangle hitbox = new Rectangle(posX +30, posY+(altura *upscaling/2), largura *upscaling/3, altura *upscaling-15); // Hitbox do jogador
     private final boolean viewHitbox = false; // Deixe em true para ver a HITBOX
     private boolean noChao = true; // Detecta se o personagem está no chão atualmente
     private boolean isGameOver = false;
 
-    private final double GRAVIDADE = 0.5;
-    private final int FORCA_PULO = -15;
+    private final double gravidade = 0.5;
+    private final int forcaPulo = -15;
 
     private double intervaloFrame = 500; // Intervalo para diminuir o tempo de troca do frames
     private double aceleracao = 100;
@@ -41,24 +41,12 @@ public class Player extends JPanel {
     public Player(Pontos pontos) {
         try {
             sheet = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/resource/sprite/p1_" + animacao + ".png")));
-            frame = sheet.getSubimage((frameAtual * LARGURA), 0, 32, 16);
+            frame = sheet.getSubimage((frameAtual * largura), 0, 32, 16);
             System.out.println("Planilha de jogador carregada :D");
         } catch (IOException | NullPointerException e) {
             System.err.println("Erro na planilha :( " + e.getMessage());
             e.fillInStackTrace();
             throw new RuntimeException();
-        }
-
-        // Importar instancias
-    }
-    // Desenha na tela, carregado no GamePainel.java
-    public void Renderizar(Graphics g) {
-        g.drawImage(frame, POS_X, posY, LARGURA * UPSCALING, ALTURA * UPSCALING, null);
-
-        // Descomente essa parte para ver a HITBOX do jogador
-        if (viewHitbox){
-            g.setColor(Color.RED);
-            g.drawRect(HITBOX.x, HITBOX.y, HITBOX.width, HITBOX.height);
         }
     }
 
@@ -69,11 +57,11 @@ public class Player extends JPanel {
         if (agora - ultimoFrame >= intervaloFrame) {
             try {
                 this.frameAtual = frameAtual; // Define o novo frame
-                this.frame = sheet.getSubimage((frameAtual * LARGURA), 0, LARGURA, ALTURA); // Recorta o frame com o novo frame
+                this.frame = sheet.getSubimage((frameAtual * largura), 0, largura, altura); // Recorta o frame com o novo frame
             } catch (RasterFormatException e) { // Caso ocorra erro, defini para o frame 0
                 System.err.println("Frame passou dos limites do spriteSheet, Resetando para o frame 0.");
                 this.frameAtual = 0;
-                this.frame = sheet.getSubimage(0, 0, LARGURA, ALTURA);
+                this.frame = sheet.getSubimage(0, 0, largura, altura);
             }
             repaint();
             acelerarPlayer();
@@ -81,24 +69,24 @@ public class Player extends JPanel {
         }
     }
 
-    public int getFrameAtual(){
-        return frameAtual;
-    }
-
     public void setAnimacao(String animacao){
         this.animacao = animacao; // Atualiza com a nova atualização
         try {
             sheet = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/resource/sprite/p1_" + animacao + ".png"))); // Carrega a nova animação
             try { // Tenta fazer o recorte da planilha de sprites, se der erro, defini o frame em 0 novamente
-                frame = sheet.getSubimage((frameAtual * LARGURA), 0, LARGURA, ALTURA);
+                frame = sheet.getSubimage((frameAtual * largura), 0, largura, altura);
             } catch (RasterFormatException e) {
                 System.err.println("O Frame atual acima fora do limite da nova animação, colocando para o primeiro frame.");
                 frameAtual = 0; // Define o frame atual para 0
-                frame = sheet.getSubimage(0, 0, LARGURA, ALTURA); // Recorta o primeiro frame do sprite
+                frame = sheet.getSubimage(0, 0, largura, altura); // Recorta o primeiro frame do sprite
             }
         } catch (IOException | NullPointerException e){
             System.out.println("Erro ao trocar animação: " + e);
         }
+    }
+
+    public int getFrameAtual(){
+        return frameAtual;
     }
 
     public String getAnimacao(){
@@ -106,9 +94,8 @@ public class Player extends JPanel {
     }
 
     public Rectangle getHITBOX() {
-        return HITBOX;
+        return hitbox;
     }
-
     // Executa os metodos de Game Over
     public void gameOver(boolean bool){
         isGameOver = bool;
@@ -129,6 +116,17 @@ public class Player extends JPanel {
         }
     }
 
+    // Desenha na tela, carregado no GamePainel.java
+    public void Renderizar(Graphics g) {
+        g.drawImage(frame, posX, posY, largura * upscaling, altura * upscaling, null);
+
+        // Descomente essa parte para ver a HITBOX do jogador
+        if (viewHitbox){
+            g.setColor(Color.RED);
+            g.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
+        }
+    }
+
     public boolean getNoChao(){
         return noChao;
     }
@@ -138,11 +136,11 @@ public class Player extends JPanel {
     }
 
     public double getGRAVIDADE(){
-        return GRAVIDADE;
+        return gravidade;
     }
 
     public int getFORCA_PULO() {
-        return FORCA_PULO;
+        return forcaPulo;
     }
 
     public int getPosY(){
@@ -152,7 +150,7 @@ public class Player extends JPanel {
     public void setPosY(int posY){
         if (!isGameOver){
             this.posY = posY;
-            this.HITBOX.setLocation(HITBOX.x, posY+ ALTURA /2);
+            this.hitbox.setLocation(hitbox.x, posY+ altura /2);
         }
     }
 }

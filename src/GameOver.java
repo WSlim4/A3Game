@@ -5,7 +5,7 @@ import menu.*;
 import ponto.Pontos;
 
 public class GameOver extends JFrame {
-    private final BotaoImagem BTN_REINICIAR;
+    private final BotaoImagem btnReiniciar;
 
     public GameOver(Pontos pontos) {
 
@@ -15,7 +15,7 @@ public class GameOver extends JFrame {
         setLocationRelativeTo(null);
 
         // Painel com imagem de fundo
-        PainelComImagem fundo = new PainelComImagem(Recursos.FUNDO_MADEIRA);
+        PainelComImagem fundo = new PainelComImagem(Recursos.fundoMadeira);
         fundo.setLayout(new BorderLayout());
 
         // LayeredPane para sobrepor imagem de fundo e painel de botões
@@ -33,7 +33,7 @@ public class GameOver extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
 
         // Logo do menu
-        URL imageUrl = getClass().getResource(Recursos.GAMEOVER);
+        URL imageUrl = getClass().getResource(Recursos.gameover);
         if (imageUrl != null) {
             ImageIcon originalIcon = new ImageIcon(imageUrl);
             Image scaledImage = originalIcon.getImage().getScaledInstance(650, 475, Image.SCALE_SMOOTH);
@@ -47,12 +47,12 @@ public class GameOver extends JFrame {
         SomUtils.tocarMusicaUmaVez("/resource/audio/menu/gameoversong.wav");
 
         // Criação do botão reiniciar com imagem
-        BTN_REINICIAR = new BotaoImagem("/resource/gameover/btn_reiniciar.png", 325, 230);
+        btnReiniciar = new BotaoImagem("/resource/gameover/btn_reiniciar.png", 325, 230);
 
         // Adiciona o botão Iniciar ao painel com espaçamento
         gbc.gridy = 1;
         gbc.insets = new Insets(10, 20, 35, 0);
-        botoesPanel.add(BTN_REINICIAR, gbc);
+        botoesPanel.add(btnReiniciar, gbc);
 
         // Adiciona fundo e painel de botões ao layeredPane em camadas diferentes
         layeredPane.add(fundo, Integer.valueOf(0));     // Fundo atrás
@@ -65,8 +65,8 @@ public class GameOver extends JFrame {
         setVisible(true);
 
         // Ação do botão Iniciar
-        BTN_REINICIAR.addActionListener(e -> {
-            SomUtils.tocarSom(Recursos.SOM_CLIQUE);
+        btnReiniciar.addActionListener(e -> {
+            SomUtils.tocarSom(Recursos.somClique);
             SomUtils.pararMusicaFundo();
             this.dispose(); // Fecha o menu
 

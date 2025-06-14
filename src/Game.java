@@ -7,23 +7,21 @@ import render.Render;
 import process_input.ProcessInput;
 import player.Player;
 import javax.sound.sampled.*;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.Objects;
 
 public class Game {
-    private final Update UPDATE_STATE;
-    private final Render RENDERER;
-    private final ProcessInput USER_INPUT;
+    private final Update updateState;
+    private final Render renderer;
+    private final ProcessInput userInput;
 
-    private final Player PLAYER;
-    private final Dust DUST;
-    private final GamePanel GAME_PANEL;
-    private final Obstaculo OBSTACULO;
-    private final Pontos PONTOS;
+    private final Player player;
+    private final Dust dust;
+    private final GamePanel gamePanel;
+    private final Obstaculo obstaculo;
+    private final Pontos pontos;
     private JFrame janela;
     private Music music = new Music();
 
@@ -32,28 +30,28 @@ public class Game {
     public boolean started = false;
 
     {
-        this.OBSTACULO = new Obstaculo();
-        this.PONTOS = new Pontos(OBSTACULO);
-        this.PLAYER = new Player(PONTOS);
-        this.DUST = new Dust(PLAYER);
-        this.UPDATE_STATE = new Update(PLAYER, OBSTACULO, PONTOS, () -> {
+        this.obstaculo = new Obstaculo();
+        this.pontos = new Pontos(obstaculo);
+        this.player = new Player(pontos);
+        this.dust = new Dust(player);
+        this.updateState = new Update(player, obstaculo, pontos, () -> {
             janela.dispose();
-            SwingUtilities.invokeLater(() -> new GameOver(PONTOS).setVisible(true));
+            SwingUtilities.invokeLater(() -> new GameOver(pontos).setVisible(true));
         }, music);
-        this.USER_INPUT = new ProcessInput(PLAYER);
+        this.userInput = new ProcessInput(player);
 
-        this.PONTOS.setObstaculos(UPDATE_STATE.getObstaculos());
+        this.pontos.setObstaculos(updateState.getObstaculos());
 
 
         // Cria painel de jogo e passa os objetos
-        this.GAME_PANEL = new GamePanel(PLAYER, DUST, PONTOS, OBSTACULO, UPDATE_STATE);
-        GAME_PANEL.addKeyListener(this.USER_INPUT);
-        GAME_PANEL.setFocusable(true);
-        GAME_PANEL.requestFocusInWindow();
+        this.gamePanel = new GamePanel(player, dust, pontos, obstaculo, updateState);
+        gamePanel.addKeyListener(this.userInput);
+        gamePanel.setFocusable(true);
+        gamePanel.requestFocusInWindow();
 
 
 
-        this.RENDERER = new Render();
+        this.renderer = new Render();
 
         System.out.println("Controle de Sprite: \n- 'D' - Correr\n- 'W' - Morte\n Nada - Ocioso");
     }
@@ -76,19 +74,12 @@ public class Game {
 
 
         janela.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        janela.setContentPane(GAME_PANEL);
+        janela.setContentPane(gamePanel);
         janela.pack();
         janela.setLocationRelativeTo(null);
         janela.setResizable(false);
         janela.setVisible(true);
-        GAME_PANEL.requestFocusInWindow();
-
-        try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(""));
-        } catch (Exception e){
-
-        }
-
+        gamePanel.requestFocusInWindow();
     }
 
     public void run() {
@@ -96,15 +87,15 @@ public class Game {
             music.play("src/resource/audio/music/tilha1.wav");
         }
         while (true) {
-            this.USER_INPUT.read();
-            this.UPDATE_STATE.update();
+            this.userInput.read();
+            this.updateState.update();
 
             if (started) {
-                PONTOS.Tempo();
+                pontos.Tempo();
             }
 
-            this.RENDERER.render(this.PLAYER, this.DUST);
-            GAME_PANEL.repaint();
+            this.renderer.render(this.player, this.dust);
+            gamePanel.repaint();
             try { Thread.sleep(16); } catch (Exception e) {}
         }
     }

@@ -27,10 +27,10 @@ public class Pontos {
     private int ciclo = 0;
     private int lua;
     private int luaVelocidade = 0;
-    private final Obstaculo OBSTACULO;
+    private final Obstaculo obstaculo;
 
     public Pontos(Obstaculo obstaculo){
-        this.OBSTACULO = obstaculo;
+        this.obstaculo = obstaculo;
         System.out.println("Pontos contrutor");
     }
 
@@ -55,7 +55,7 @@ public class Pontos {
                         velocidade = 0;
                     }
 
-                    OBSTACULO.move();
+                    obstaculo.move();
                     for (Obstaculo o : listaObstaculos) {
                         o.move();
                     }
@@ -93,8 +93,7 @@ public class Pontos {
     }
 
     public void setGameOver(boolean bool){
-        gameOver = bool;
-    }
+        gameOver = bool;    }
 
     public void setObstaculos(List<Obstaculo> obstaculos){
         this.listaObstaculos = obstaculos;
@@ -114,17 +113,13 @@ public class Pontos {
     }
     public void saveScore() {
         Path path = Path.of("src/Ponto/teste.txt");
-
         List<String> linhas = null;
         try {
             linhas = Files.readAllLines(path);
-
             int linhasNumero = 0;
-
             for (String texto: linhas){
                 linhasNumero = Integer.parseInt(texto);
             }
-
             if(pontos>linhasNumero){
                 String texto = Long.toString(pontos);
                 Files.writeString(path,texto);
@@ -136,17 +131,13 @@ public class Pontos {
 
     public boolean readScore(){
         Path path = Path.of("src/Ponto/teste.txt");
-
         List<String> linhas = null;
         try {
             linhas = Files.readAllLines(path);
-
             int linhasNumero = 0;
-
             for (String texto: linhas){
                 linhasNumero = Integer.parseInt(texto);
             }
-
             if(pontos>linhasNumero){
                 String texto = Long.toString(pontos);
                 Files.writeString(path,texto);

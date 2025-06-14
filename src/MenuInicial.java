@@ -5,7 +5,7 @@ import menu.*;
 
 public class MenuInicial extends JFrame {
 
-    private final BotaoImagem BTN_INICIAR;
+    private final BotaoImagem btn_iniciar;
 
     public MenuInicial() {
         setTitle("menu");
@@ -14,7 +14,7 @@ public class MenuInicial extends JFrame {
         setLocationRelativeTo(null);
 
         // Painel com imagem de fundo
-        PainelComImagem fundo = new PainelComImagem(Recursos.FUNDO_MADEIRA);
+        PainelComImagem fundo = new PainelComImagem(Recursos.fundoMadeira);
         fundo.setLayout(new BorderLayout());
 
         // LayeredPane para sobrepor imagem de fundo e painel de botões
@@ -32,7 +32,7 @@ public class MenuInicial extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
 
         // Logo do menu
-        URL imageUrl = getClass().getResource(Recursos.MENU);
+        URL imageUrl = getClass().getResource(Recursos.menu);
         if (imageUrl != null) {
             ImageIcon originalIcon = new ImageIcon(imageUrl);
             Image scaledImage = originalIcon.getImage().getScaledInstance(350, 300, Image.SCALE_SMOOTH);
@@ -46,12 +46,12 @@ public class MenuInicial extends JFrame {
         SomUtils.tocarMusicaMenu("/resource/audio/menu/musica_menu.wav");
 
         // Criação do botão Iniciar com imagem
-        BTN_INICIAR = new BotaoImagem("/resource/menu/btn_iniciar.png", 350, 120);
+        btn_iniciar = new BotaoImagem("/resource/menu/btn_iniciar.png", 350, 120);
 
         // Adiciona o botão Iniciar ao painel com espaçamento
         gbc.gridy = 1;
         gbc.insets = new Insets(10, 20, 35, 0);
-        botoesPanel.add(BTN_INICIAR, gbc);
+        botoesPanel.add(btn_iniciar, gbc);
 
         // Adiciona fundo e painel de botões ao layeredPane em camadas diferentes
         layeredPane.add(fundo, Integer.valueOf(0));     // Fundo atrás
@@ -64,8 +64,8 @@ public class MenuInicial extends JFrame {
         setVisible(true);
 
         // Ação do botão Iniciar
-        BTN_INICIAR.addActionListener(e -> {
-            SomUtils.tocarSom(Recursos.SOM_CLIQUE);
+        btn_iniciar.addActionListener(e -> {
+            SomUtils.tocarSom(Recursos.somClique);
             SomUtils.pararMusicaFundo();
             this.dispose(); // Fecha o menu
 
